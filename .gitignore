@@ -1,0 +1,21 @@
+# Env / secrets
+.env
+.env.*
+!.env.example
+
+# Foundry
+contracts/out/
+contracts/cache/
+contracts/broadcast/*/31337/
+contracts/lib/
+
+# Node
+node_modules/
+agent/dist/
+frontend/.next/
+frontend/out/
+**/npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db

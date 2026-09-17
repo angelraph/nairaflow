@@ -1,0 +1,12 @@
+{
+  "chainId": 46630,
+  "name": "Robinhood Chain Testnet",
+  "note": "Placeholder — filled in by the real Day 14 deployment. Every address below must come from an actual forge script broadcast, never typed by hand.",
+  "stablecoinRegistry": "",
+  "policyManager": "",
+  "agentExecutor": "",
+  "savingsCircleFactory": "",
+  "goalVaultFactory": "",
+  "usdc": "",
+  "usdg": ""
+}

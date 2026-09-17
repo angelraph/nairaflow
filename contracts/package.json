@@ -1,0 +1,11 @@
+{
+  "name": "nairaflow-contracts",
+  "version": "0.1.0",
+  "private": true,
+  "description": "NairaFlow smart contracts (Foundry)",
+  "license": "MIT",
+  "dependencies": {
+    "@openzeppelin/contracts": "5.7.0",
+    "@openzeppelin/contracts-upgradeable": "5.7.0"
+  }
+}
