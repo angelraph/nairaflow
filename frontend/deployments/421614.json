@@ -1,12 +1,12 @@
 {
   "chainId": 421614,
   "name": "Arbitrum Sepolia",
-  "note": "Placeholder — filled in by the real deployment. Every address below must come from an actual forge script broadcast, never typed by hand.",
-  "stablecoinRegistry": "",
-  "policyManager": "",
-  "agentExecutor": "",
-  "savingsCircleFactory": "",
-  "goalVaultFactory": "",
+  "note": "Live deployment from contracts/script/Deploy.s.sol.",
+  "stablecoinRegistry": "0xf941EbebF08638f537041b4896358134A69F704e",
+  "policyManager": "0x33b7Cc399e36dB444a2b27B09f04f05920EcC6A7",
+  "agentExecutor": "0x59fe770a3aaD6046550DC4780C30f71b0C9610A2",
+  "savingsCircleFactory": "0xc3f833a6F79b663498d044aC9e962554EF414131",
+  "goalVaultFactory": "0x383538B565BD553C95597f8250E5dE058d2E97f1",
   "usdc": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
-  "usdg": ""
+  "usdg": "0x6c6a52510867d76Abc04717953D74CF1223a9a41"
 }
