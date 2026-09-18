@@ -15,6 +15,7 @@ agent/dist/
 frontend/.next/
 frontend/out/
 **/npm-debug.log*
+*.tsbuildinfo
 
 # OS
 .DS_Store
