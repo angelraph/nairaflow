@@ -1,0 +1,32 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  background-color: #faf8f4;
+  color: #0f1115;
+}
+
+.card {
+  @apply rounded-2xl border border-sand bg-white p-6 shadow-sm;
+}
+
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-xl bg-naira px-4 py-2 text-sm font-medium text-white transition hover:bg-nairaDark disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-xl border border-sand bg-white px-4 py-2 text-sm font-medium text-ink transition hover:bg-sand/40 disabled:cursor-not-allowed disabled:opacity-50;
+}
+
+.input {
+  @apply w-full rounded-lg border border-sand bg-white px-3 py-2 text-sm outline-none focus:border-naira;
+}
+
+.label {
+  @apply mb-1 block text-xs font-medium uppercase tracking-wide text-ink/60;
+}

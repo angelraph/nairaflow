@@ -28,7 +28,12 @@ export async function findDueCircleRounds(publicClient: PublicClient, deployment
   const circles = await factory.read.getAllCircles();
 
   const due: Address[] = [];
-  const now = BigInt(Math.floor(Date.now() / 1000));
+  // Compare against the chain's own block timestamp, not the local machine's wall clock — the
+  // contract's own deadline check uses block.timestamp, and the two can diverge (clock drift,
+  // or a fast-forwarded local dev chain), which would otherwise make the agent miss or
+  // prematurely attempt a round.
+  const latestBlock = await publicClient.getBlock();
+  const now = latestBlock.timestamp;
 
   for (const circle of circles) {
     const c = getContract({ address: circle, abi: savingsCircleAbi, client: publicClient });
@@ -48,14 +53,16 @@ export async function findDueVaultReleases(publicClient: PublicClient, deploymen
 
   const due: DueVaultRelease[] = [];
   for (const vault of vaults) {
-    const policy = await policyManager.read.policies([vault]);
-    if (!policy.active) continue;
+    // policies() returns its struct as a positional tuple, not a named object, despite the ABI
+    // naming every field — viem only builds a named object for single-output structs.
+    const [active, , , maxPerTx] = await policyManager.read.policies([vault]);
+    if (!active) continue;
 
     const v = getContract({ address: vault, abi: goalVaultAbi, client: publicClient });
     const available = await v.read.availableNow();
     if (available === 0n) continue;
 
-    const amount = available < policy.maxPerTx ? available : policy.maxPerTx;
+    const amount = available < maxPerTx ? available : maxPerTx;
     if (amount > 0n) due.push({ vault, amount });
   }
   return due;
