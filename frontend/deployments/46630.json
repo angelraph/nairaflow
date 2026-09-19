@@ -1,12 +1,12 @@
 {
   "chainId": 46630,
   "name": "Robinhood Chain Testnet",
-  "note": "Placeholder — filled in by the real deployment. Every address below must come from an actual forge script broadcast, never typed by hand.",
-  "stablecoinRegistry": "",
-  "policyManager": "",
-  "agentExecutor": "",
-  "savingsCircleFactory": "",
-  "goalVaultFactory": "",
-  "usdc": "",
-  "usdg": ""
+  "note": "Live deployment from contracts/script/Deploy.s.sol. No canonical USDC/USDG token could be confirmed on this permissionless testnet, so both stablecoins here are NairaFlow's own labeled mocks (mUSDC/mUSDG) — see docs/ARCHITECTURE.md.",
+  "stablecoinRegistry": "0x23AFA712DB6BfD3D5376DA73c57493913aB8d3D1",
+  "policyManager": "0x290ab68fFCEaCE40DE43098436967dA2BaC436F6",
+  "agentExecutor": "0xCBE1A63057f9E1a399CEc8cAfdcBb9DE3382aec8",
+  "savingsCircleFactory": "0x0Dfe72134CCa08Bf346820F16e3467eaB03aa6C0",
+  "goalVaultFactory": "0xE52dc486e528a6506d702748bfA598b57cD08967",
+  "usdc": "0xAbEA0b38214B1A5FDAc725E63eb1c7EC6b381637",
+  "usdg": "0x52A0D9b9d96A03F318c8D07aC8068Aed5f2016c1"
 }
