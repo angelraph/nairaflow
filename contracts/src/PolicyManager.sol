@@ -5,7 +5,7 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
 /// @notice Per-target (vault or circle) spending policy: which destination and limits a user
 /// has authorized the off-chain agent to act within. Owner-set, instantly revocable, and
-/// deliberately independent of the target's own unlock/period rules — this only governs
+/// deliberately independent of the target's own unlock/period rules. This only governs
 /// whether the AGENT is currently allowed to trigger an action at all, not what the target
 /// contract's own business logic separately permits.
 contract PolicyManager is Ownable {
@@ -49,7 +49,7 @@ contract PolicyManager is Ownable {
     }
 
     /// @notice Grants (or replaces) a policy for `target`. Only the current policy owner (or,
-    /// if none exists yet, anyone establishing the first one) may set it — in practice this is
+    /// if none exists yet, anyone establishing the first one) may set it. In practice this is
     /// always called by the vault/circle owner from the frontend.
     function setPolicy(
         address target,
@@ -77,7 +77,7 @@ contract PolicyManager is Ownable {
     }
 
     /// @notice Instantly revokes the agent's authority over `target`. The next agent attempt
-    /// reverts in checkAndConsume — this is the "revoke live" demo moment.
+    /// reverts in checkAndConsume. This is the "revoke live" demo moment.
     function revokePolicy(address target) external {
         Policy storage p = policies[target];
         require(p.active, "no active policy");

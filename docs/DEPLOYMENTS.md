@@ -14,7 +14,7 @@ Every address below comes from an actual `forge script` broadcast (see `contract
 | GoalVault (implementation) | `0xAb5f547d6046213Ba9A38c3c0d49088e032500D1` |
 | GoalVaultFactory | `0x383538B565BD553C95597f8250E5dE058d2E97f1` |
 | USDC (Circle, real) | `0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d` |
-| mUSDG (mock — see below) | `0x6c6a52510867d76Abc04717953D74CF1223a9a41` |
+| mUSDG (mock, see below) | `0x6c6a52510867d76Abc04717953D74CF1223a9a41` |
 
 Explorer: https://sepolia.arbiscan.io
 
@@ -29,15 +29,15 @@ Explorer: https://sepolia.arbiscan.io
 | SavingsCircleFactory | `0x0Dfe72134CCa08Bf346820F16e3467eaB03aa6C0` |
 | GoalVault (implementation) | `0x480341560FECcfa19FAa19A4f4Cb452593C4ee2c` |
 | GoalVaultFactory | `0xE52dc486e528a6506d702748bfA598b57cD08967` |
-| mUSDC (mock — see below) | `0xAbEA0b38214B1A5FDAc725E63eb1c7EC6b381637` |
-| mUSDG (mock — see below) | `0x52A0D9b9d96A03F318c8D07aC8068Aed5f2016c1` |
+| mUSDC (mock, see below) | `0xAbEA0b38214B1A5FDAc725E63eb1c7EC6b381637` |
+| mUSDG (mock, see below) | `0x52A0D9b9d96A03F318c8D07aC8068Aed5f2016c1` |
 
 Explorer: https://explorer.testnet.chain.robinhood.com
 
 ## Why some stablecoins here are mocks
 
-Robinhood Chain's testnet is permissionless — anyone can deploy a token calling itself "USDC" or "USDG". Querying its Blockscout API turned up a dozen+ impostors with those symbols and no canonical marker distinguishing an official one, so rather than gamble on pointing the demo at the wrong contract, NairaFlow deploys its own `mUSDC`/`mUSDG` there instead — the `m` prefix is baked into the on-chain `symbol()` itself, not just a UI label, so it can never be confused for the real token anywhere it's displayed. Arbitrum Sepolia has a confirmed, official Circle-issued USDC, used directly; no public USDG testnet faucet was found on either chain, so `mUSDG` stands in on both.
+Robinhood Chain's testnet is permissionless, so anyone can deploy a token calling itself "USDC" or "USDG". Querying its Blockscout API turned up a dozen or more impostors with those symbols and no canonical marker distinguishing an official one, so rather than gamble on pointing the demo at the wrong contract, NairaFlow deploys its own `mUSDC`/`mUSDG` there instead. The `m` prefix is baked into the on-chain `symbol()` itself, not just a UI label, so it can never be confused for the real token anywhere it's displayed. Arbitrum Sepolia has a confirmed, official Circle-issued USDC, used directly. No public USDG testnet faucet was found on either chain, so `mUSDG` stands in on both.
 
 ## Local (Anvil, chain id 31337)
 
-Used only for development smoke-testing — never referenced in the submission.
+Used only for development smoke-testing, never referenced in the submission.

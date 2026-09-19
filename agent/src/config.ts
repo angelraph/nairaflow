@@ -33,7 +33,7 @@ function loadDeployment(chainId: number): Deployment {
   const missing = required.filter((key) => !raw[key]);
   if (missing.length > 0) {
     throw new Error(
-      `deployments/${chainId}.json is missing ${missing.join(", ")} — run the real deploy script for this chain ` +
+      `deployments/${chainId}.json is missing ${missing.join(", ")}. Run the real deploy script for this chain ` +
         `and fill in the resulting addresses before starting the agent. The agent refuses to run against a chain ` +
         `it hasn't actually been deployed to, rather than silently doing nothing.`
     );

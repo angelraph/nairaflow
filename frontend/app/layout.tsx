@@ -2,7 +2,7 @@ import "./globals.css";
 import { Providers } from "./providers";
 import { Nav } from "@/components/Nav";
 
-// Typed structurally rather than as `Metadata` from "next" — the App Router only needs this
+// Typed structurally rather than as `Metadata` from "next": the App Router only needs this
 // object's shape at build time, and the exact export path for that type has moved between
 // Next.js versions.
 export const metadata = {

@@ -1,7 +1,7 @@
 // Dev-only smoke test: runs the real watcher logic (findDueVaultReleases,
 // executeVaultRelease, findDueCircleRounds, executeCircleResolution) against a local Anvil
 // deployment, so the agent's actual code path is proven end-to-end before it's ever pointed
-// at a public testnet. Not part of the shipped agent — invoked manually during development.
+// at a public testnet. Not part of the shipped agent, invoked manually during development.
 import { createPublicClient, createWalletClient, http, defineChain } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
 import { readFileSync } from "node:fs";

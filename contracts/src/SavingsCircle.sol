@@ -12,7 +12,7 @@ import {IStablecoinRegistry} from "./interfaces/IStablecoinRegistry.sol";
 /// @notice An on-chain Ajo/Esusu: a fixed-size group of members each contribute a fixed amount
 /// of a stablecoin every round; each round's pool is paid to one member, in join order, until
 /// everyone has been paid once. A security deposit posted at join time backstops the group
-/// against a member who stops contributing — a default never blocks the schedule for anyone
+/// against a member who stops contributing. A default never blocks the schedule for anyone
 /// else. This contract is deployed once as an implementation and reused via EIP-1167 minimal
 /// proxy clones (see SavingsCircleFactory); each clone has fully isolated storage.
 contract SavingsCircle is Initializable, ReentrancyGuardUpgradeable, PausableUpgradeable {
@@ -172,7 +172,7 @@ contract SavingsCircle is Initializable, ReentrancyGuardUpgradeable, PausableUpg
     }
 
     /// @notice Contribute this round's fixed amount. Every active, non-defaulted member
-    /// contributes every round (including the round's recipient) — this keeps every round's
+    /// contributes every round (including the round's recipient). This keeps every round's
     /// pool the same size and the accounting simple and auditable.
     function contribute() external nonReentrant whenNotPaused {
         require(status == Status.Active, "not active");
@@ -192,7 +192,7 @@ contract SavingsCircle is Initializable, ReentrancyGuardUpgradeable, PausableUpg
     /// contribute forfeits their entire remaining security deposit into the round's pool and is
     /// marked defaulted (excluded from all future rounds), the pool is paid to the next
     /// non-defaulted member in join order, and the circle advances to the next round.
-    /// Callable by anyone — including the off-chain agent, but with no special privilege: it
+    /// Callable by anyone, including the off-chain agent, but with no special privilege: it
     /// can only trigger logic that was already going to happen on schedule, never move funds
     /// outside this contract's own rules.
     function resolveRound() external nonReentrant whenNotPaused {

@@ -106,7 +106,7 @@ export default function ActivityPage() {
     <div className="flex flex-col gap-6">
       <h1 className="text-2xl font-semibold text-ink">Activity</h1>
       <p className="text-sm text-ink/60">
-        Every item here is read directly from on-chain events — nothing here is simulated or stored off-chain.
+        Every item here is read directly from on-chain events. Nothing here is simulated or stored off-chain.
       </p>
 
       <DeploymentBanner />

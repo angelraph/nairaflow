@@ -17,18 +17,18 @@ export interface DueVaultRelease {
   /** Has a fixed deadline it must honor regardless of gas price (unlockDate already reached and
    * this is the owner's own configured cutoff), vs. still inside its flexible window. Goal
    * vaults don't currently have a separate "hard" flag distinct from availableNow > 0, so v1
-   * simply treats every due release as gas-timeable within a short window — see watcher.ts. */
+   * simply treats every due release as gas-timeable within a short window. See watcher.ts. */
 }
 
 /** Circles whose current round's contribution deadline has passed and are waiting to be
- * resolved. Reads every circle the factory has ever created — fine at hackathon scale, would
+ * resolved. Reads every circle the factory has ever created, fine at hackathon scale, would
  * move to indexed event queries or a subgraph before this needed to handle thousands. */
 export async function findDueCircleRounds(publicClient: PublicClient, deployment: Deployment): Promise<Address[]> {
   const factory = getContract({ address: deployment.savingsCircleFactory, abi: savingsCircleFactoryAbi, client: publicClient });
   const circles = await factory.read.getAllCircles();
 
   const due: Address[] = [];
-  // Compare against the chain's own block timestamp, not the local machine's wall clock — the
+  // Compare against the chain's own block timestamp, not the local machine's wall clock. The
   // contract's own deadline check uses block.timestamp, and the two can diverge (clock drift,
   // or a fast-forwarded local dev chain), which would otherwise make the agent miss or
   // prematurely attempt a round.
@@ -54,7 +54,7 @@ export async function findDueVaultReleases(publicClient: PublicClient, deploymen
   const due: DueVaultRelease[] = [];
   for (const vault of vaults) {
     // policies() returns its struct as a positional tuple, not a named object, despite the ABI
-    // naming every field — viem only builds a named object for single-output structs.
+    // naming every field. viem only builds a named object for single-output structs.
     const [active, , , maxPerTx] = await policyManager.read.policies([vault]);
     if (!active) continue;
 

@@ -5,7 +5,7 @@ import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 
 /// @notice Testnet-only mintable stand-in for USDC, used solely on chains where no canonical,
 /// verifiably-official USDC token could be confirmed (see docs/ARCHITECTURE.md). The symbol
-/// itself carries the "mock" label — the frontend only ever displays a token's symbol(), never
+/// itself carries the "mock" label. The frontend only ever displays a token's symbol(), never
 /// its full name(), so a real-looking "USDC" symbol here would silently misrepresent this as
 /// the genuine Circle token everywhere it's shown (dropdowns, circle/vault cards, detail
 /// pages). Never deployed to mainnet.

@@ -12,7 +12,7 @@ import {IStablecoinRegistry} from "./interfaces/IStablecoinRegistry.sol";
 /// @notice An individual, non-custodial savings lock. The owner deposits a stablecoin that
 /// unlocks fully at `unlockDate`, or releases early in bounded increments against a configured
 /// per-period allowance. An authorized AgentExecutor can trigger a scheduled release, but only
-/// ever directly to `destination` — never through the agent itself — and only within the same
+/// ever directly to `destination`, never through the agent itself, and only within the same
 /// unlock/period rules that govern the owner's own withdrawals.
 contract GoalVault is Initializable, ReentrancyGuardUpgradeable, PausableUpgradeable {
     using SafeERC20 for IERC20;
@@ -86,7 +86,7 @@ contract GoalVault is Initializable, ReentrancyGuardUpgradeable, PausableUpgrade
         emit VaultInitialized(_owner, _token, _destination, _unlockDate, _maxPerPeriod, _periodLength);
     }
 
-    /// @notice Anyone can top up a vault — e.g. a family member funding a relative's goal.
+    /// @notice Anyone can top up a vault, e.g. a family member funding a relative's goal.
     function deposit(uint256 amount) external nonReentrant whenNotPaused {
         require(amount > 0, "zero amount");
         totalDeposited += amount;

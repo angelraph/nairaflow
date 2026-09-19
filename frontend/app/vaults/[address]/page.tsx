@@ -128,7 +128,7 @@ export default function VaultDetailPage() {
             {pending ? "Working..." : `Deposit ${symbol}`}
           </button>
         </div>
-        <p className="text-xs text-ink/50">Anyone can fund this vault — useful if you&apos;re sending savings to someone else.</p>
+        <p className="text-xs text-ink/50">Anyone can fund this vault, which is useful if you&apos;re sending savings to someone else.</p>
       </div>
 
       {isOwner && (

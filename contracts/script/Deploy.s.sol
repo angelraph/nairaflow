@@ -14,7 +14,7 @@ import {MockUSDG} from "../src/mocks/MockUSDG.sol";
 
 /// @notice One parameterized script, run against both chains with `--rpc-url`. Deploys the
 /// full NairaFlow stack and wires the pieces together in the order their constructors/setters
-/// require. Set REAL_USDC_ADDRESS to register a real, already-deployed USDC — MockUSDC is only
+/// require. Set REAL_USDC_ADDRESS to register a real, already-deployed USDC. MockUSDC is only
 /// deployed when no real USDC address is given, so the token list never shows two different
 /// tokens both labeled "USDC". Set DEPLOY_MOCK_USDG=false to skip MockUSDG (e.g. once a real
 /// USDG testnet address is confirmed and registered via REAL_USDG_ADDRESS instead).

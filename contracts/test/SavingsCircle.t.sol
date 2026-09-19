@@ -90,7 +90,7 @@ contract SavingsCircleTest is Test {
         vm.startPrank(dave);
         usdc.approve(address(circle), CONTRIBUTION);
         // The circle auto-activates the instant it reaches maxMembers (see _recordJoin), so a
-        // later joiner always hits the "not open" gate rather than "full" — the length check
+        // later joiner always hits the "not open" gate rather than "full". The length check
         // exists as defense-in-depth but is unreachable in practice given that invariant.
         vm.expectRevert(bytes("not open"));
         circle.join();
@@ -179,7 +179,7 @@ contract SavingsCircleTest is Test {
         // Pool = 2 contributions + bob's forfeited deposit, paid to alice (recipient of round 0).
         assertEq(circle.pendingWithdrawal(alice), CONTRIBUTION * 2 + CONTRIBUTION * DEPOSIT_MULTIPLIER);
 
-        // Round 1: bob is skipped entirely — no longer required to contribute, not eligible to
+        // Round 1: bob is skipped entirely, no longer required to contribute, not eligible to
         // receive. Recipient should be carol (next non-defaulted member after alice).
         vm.prank(alice);
         usdc.approve(address(circle), CONTRIBUTION);
@@ -194,7 +194,7 @@ contract SavingsCircleTest is Test {
         circle.resolveRound();
 
         assertEq(circle.pendingWithdrawal(carol), CONTRIBUTION * 2);
-        // The circle still runs a fixed maxMembers (3) rounds regardless of defaults — round 2
+        // The circle still runs a fixed maxMembers (3) rounds regardless of defaults. Round 2
         // has no eligible recipient left (both alice and carol already had their turn), so its
         // pool becomes unclaimed rather than finishing the circle one round early.
         assertEq(uint256(circle.status()), uint256(SavingsCircle.Status.Active));
@@ -220,7 +220,7 @@ contract SavingsCircleTest is Test {
         assertEq(circle.pendingWithdrawal(carol), CONTRIBUTION * 2 + CONTRIBUTION * DEPOSIT_MULTIPLIER);
 
         // The unclaimed pool splits evenly between the two members who finished in good
-        // standing — bob, having defaulted, is excluded.
+        // standing. Bob, having defaulted, is excluded.
         circle.distributeUnclaimedPool();
         assertEq(circle.unclaimedPool(), 0);
         assertEq(circle.pendingWithdrawal(alice), CONTRIBUTION * 4 + CONTRIBUTION * DEPOSIT_MULTIPLIER);

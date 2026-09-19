@@ -1,7 +1,7 @@
 import { defineChain } from "viem";
 import { arbitrumSepolia } from "viem/chains";
 
-// Robinhood Chain Testnet — chain ID, RPC and explorer confirmed directly against
+// Robinhood Chain Testnet. Chain ID, RPC and explorer confirmed directly against
 // docs.robinhood.com/chain/connecting, not assumed.
 export const robinhoodTestnet = defineChain({
   id: 46630,
@@ -16,7 +16,7 @@ export const robinhoodTestnet = defineChain({
   testnet: true,
 });
 
-// Local Anvil node — only used during development to prove the full stack works against a
+// Local Anvil node, used only during development to prove the full stack works against a
 // real, freshly-deployed EVM before ever touching a public testnet. Never enabled in a
 // production build.
 export const localAnvil = defineChain({

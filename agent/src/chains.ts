@@ -1,7 +1,7 @@
 import { defineChain } from "viem";
 import { arbitrumSepolia } from "viem/chains";
 
-// Robinhood Chain Testnet — chain ID, RPC and explorer confirmed directly against
+// Robinhood Chain Testnet. Chain ID, RPC and explorer confirmed directly against
 // docs.robinhood.com/chain/connecting (2026-09-17), not assumed.
 export const robinhoodTestnet = defineChain({
   id: 46630,

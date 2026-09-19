@@ -52,7 +52,7 @@ contract GoalVaultFactory is Ownable, Pausable {
     }
 
     /// @dev Must be called before any vaults are created for those vaults to pick up the
-    /// correct executor — each vault records the executor address at creation time.
+    /// correct executor. Each vault records the executor address at creation time.
     function setAgentExecutor(address newAgentExecutor) external onlyOwner {
         agentExecutor = newAgentExecutor;
         emit AgentExecutorUpdated(newAgentExecutor);

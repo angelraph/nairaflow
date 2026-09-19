@@ -134,7 +134,7 @@ export default function NewCirclePage() {
               onChange={(e) => setDepositMultiplier(e.target.value)}
             />
             <p className="mt-1 text-xs text-ink/50">
-              Forfeited if you miss a round — this is what lets the circle keep going without you.
+              Forfeited if you miss a round. This is what lets the circle keep going without you.
             </p>
           </div>
 

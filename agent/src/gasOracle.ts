@@ -5,7 +5,7 @@ const SAMPLE_WINDOW = 20;
 /**
  * Agent v1's gas-awareness: keeps a small rolling window of recent `eth_gasPrice` samples per
  * chain and decides whether "now" is a favorable time to execute a time-flexible action. This
- * is the only thing standing in for the original pitch's "AI watches the rate" idea — but
+ * is the only thing standing in for the original pitch's "AI watches the rate" idea, but
  * gas price is real, on-chain, and verifiable (unlike a fabricated NGN/USD rate), and every
  * decision this makes is stamped into the resulting AgentExecuted event via tx.gasprice, so it
  * can be checked against the explorer after the fact.
@@ -31,7 +31,7 @@ export class GasOracle {
   /** Is `price` at or below `ratio` of the current rolling baseline? */
   isFavorable(price: bigint, ratio: number): boolean {
     const base = this.baseline();
-    if (base === null) return true; // no baseline yet — don't block the very first sample
+    if (base === null) return true; // no baseline yet, don't block the very first sample
     const ratioBps = BigInt(Math.round(ratio * 10_000));
     return price * 10_000n <= base * ratioBps;
   }

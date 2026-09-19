@@ -11,7 +11,7 @@ import {MockUSDC} from "../../src/mocks/MockUSDC.sol";
 /// @notice Drives a single SavingsCircle through random join/contribute/resolve/withdraw
 /// sequences (including members who never contribute, i.e. real defaults) and exposes only
 /// those actions to the invariant fuzzer, so every sequence it finds is one the real contract
-/// could actually encounter through its own public interface — never a hand-crafted scenario.
+/// could actually encounter through its own public interface, never a hand-crafted scenario.
 contract SavingsCircleHandler is Test {
     SavingsCircle public circle;
     MockUSDC public token;
@@ -110,7 +110,7 @@ contract SavingsCircleInvariantTest is StdInvariant, Test {
     /// @notice The core funds-conservation property: at every point in the circle's lifetime,
     /// whatever the token contract says this circle holds must equal exactly what is still
     /// owed to someone (locked deposits of members who haven't been refunded/slashed, credited
-    /// payouts not yet withdrawn, and any pool not yet claimed) — nothing more, nothing less.
+    /// payouts not yet withdrawn, and any pool not yet claimed), nothing more, nothing less.
     /// If this ever fails, funds have either leaked out or become permanently unaccounted for.
     function invariant_FundsConservation() public view {
         uint256 trackedLiabilities = circle.unclaimedPool();
@@ -122,7 +122,7 @@ contract SavingsCircleInvariantTest is StdInvariant, Test {
         }
 
         // While a round is still active, members may have already contributed into it without
-        // resolveRound() having run yet — that money is real, sitting in the contract, and not
+        // resolveRound() having run yet. That money is real, sitting in the contract, and not
         // yet reflected in any of the mappings above. Once the circle is no longer active, its
         // last round has necessarily been resolved (resolution is what ends Active status), so
         // this term correctly drops out.

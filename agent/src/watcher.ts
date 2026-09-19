@@ -4,8 +4,8 @@ import { AGENT_PRIVATE_KEY, GAS_PRICE_TARGET_RATIO, POLL_INTERVAL_MS, targets, t
 import { GasOracle } from "./gasOracle.js";
 import { executeCircleResolution, executeVaultRelease, findDueCircleRounds, findDueVaultReleases } from "./executor.js";
 
-// Don't stall a due, policy-authorized vault release waiting for cheaper gas beyond this —
-// honoring the schedule the user set always wins over saving gas.
+// Don't stall a due, policy-authorized vault release waiting for cheaper gas beyond this.
+// Honoring the schedule the user set always wins over saving gas.
 const MAX_WAIT_MS = 10 * 60 * 1000;
 
 interface ChainState {
@@ -37,7 +37,7 @@ async function pollChain(state: ChainState) {
   const { name, deployment, publicClient, walletClient, gasOracle, firstSeenDue } = state;
   const currentGasPrice = await gasOracle.sample();
 
-  // SavingsCircle rounds are only ever "due" once their deadline has already passed — there is
+  // SavingsCircle rounds are only ever "due" once their deadline has already passed. There is
   // no earlier window worth waiting inside, so resolve them as soon as they're seen.
   const dueCircles = await findDueCircleRounds(publicClient, deployment);
   for (const circle of dueCircles) {
@@ -64,7 +64,7 @@ async function pollChain(state: ChainState) {
 
     if (!favorable && !waitedTooLong) {
       console.log(
-        `[${name}] vault ${vault} release due (${amount}), waiting for better gas — ` +
+        `[${name}] vault ${vault} release due (${amount}), waiting for better gas: ` +
           `current ${currentGasPrice} wei, baseline ${gasOracle.baseline()} wei`
       );
       continue;
@@ -87,7 +87,7 @@ async function pollChain(state: ChainState) {
 async function main() {
   if (!AGENT_PRIVATE_KEY) {
     throw new Error(
-      "AGENT_PRIVATE_KEY is not set — the agent needs its own funded testnet key with AGENT_ROLE granted on AgentExecutor."
+      "AGENT_PRIVATE_KEY is not set. The agent needs its own funded testnet key with AGENT_ROLE granted on AgentExecutor."
     );
   }
   const account = privateKeyToAccount(AGENT_PRIVATE_KEY);

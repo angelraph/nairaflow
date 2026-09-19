@@ -6,8 +6,8 @@ import {Initializable} from "@openzeppelin/contracts-upgradeable/proxy/utils/Ini
 /// @notice Minimal storage-based reentrancy guard for Initializable clone targets, mirroring
 /// OpenZeppelin's own long-standing ReentrancyGuard implementation exactly (NOT_ENTERED /
 /// ENTERED sentinel pattern). Written in-repo because the installed OpenZeppelin
-/// contracts-upgradeable 5.7.0 npm package does not publish a ReentrancyGuardUpgradeable —
-/// only a transient-storage variant (ReentrancyGuardTransient) exists, and only in the
+/// contracts-upgradeable 5.7.0 npm package does not publish a ReentrancyGuardUpgradeable.
+/// Only a transient-storage variant (ReentrancyGuardTransient) exists, and only in the
 /// non-upgradeable package. That variant was deliberately not used here: it depends on
 /// EIP-1153 (TSTORE/TLOAD) support, which was not confirmed for Robinhood Chain testnet during
 /// research, and getting this wrong would mean every state-changing call reverts on that
