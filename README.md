@@ -10,7 +10,7 @@ NairaFlow has two products sharing one security model:
 
 Both are backed by the same guarantee: funds sit in a contract the user (or the circle's own rules) controls. An off-chain agent can be granted a narrow, revocable capability to trigger due actions, enforcing the owner's spending policy and timing gas-sensitive transactions against live network gas price, but it can never move funds to an arbitrary destination or exceed what the owner authorized.
 
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design, the verified chain configuration for Arbitrum Sepolia and Robinhood Chain testnet, and the reasoning behind each security choice.
+See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design, the verified chain configuration for Arbitrum Sepolia and Robinhood Chain testnet, and the reasoning behind each security choice, including how this differs from the other group-savings and agent-policy projects submitted to the same event.
 
 ## Status
 

@@ -9,6 +9,12 @@ NairaFlow is a non-custodial stablecoin savings platform for the African diaspor
 
 Both are backed by the same non-custodial guarantee: user funds sit in a contract the user (or the circle's own rules) controls. An off-chain agent can be granted a narrow, revocable capability to trigger due actions. It can never move funds to an arbitrary destination or exceed the policy the user set.
 
+## Where this sits next to similar ideas in this event
+
+CommitCircle, also submitted to this buildathon, locks a group's USDC in a vault that unlocks by quorum vote or by a deadline. That's a genuinely different mechanic from a rotating savings circle: one shared pool, for one shared goal, released together, once, by agreement. NairaFlow's SavingsCircle is a continuous rotation: a fixed group contributes every round, and one member receives the full pot each round in a known, guaranteed order, exactly how Ajo and Esusu actually run in Nigeria and across the West African diaspora today. Nobody votes on who gets paid next. That's not a missing feature, it's the point: a rotating circle only works because every member already knows exactly when their turn comes. That's also why the security-deposit and default-forfeiture logic exists here and wouldn't make sense in a quorum-unlock model: an unreliable member in a rotation has to be handled automatically and immediately, not put to a vote.
+
+The "agent enforces an on-chain spending policy" pattern behind PolicyManager and AgentExecutor also shows up, independently, in several other AI-agent-focused submissions to this event (Agent Guardian, Fieldcast Buyer Agent, and others). That convergence is a reasonable signal the pattern itself is sound, but it means the pattern alone isn't what NairaFlow is betting on. What none of those projects share with NairaFlow is a named population and a named, already-practiced financial ritual behind the product decisions, not an abstract "agentic finance" pitch.
+
 ## Why these design choices
 
 - **Factory + EIP-1167 minimal-proxy clones**, not one ID-keyed contract. Each circle/vault gets isolated storage in its own address. This removes an entire class of cross-circle accounting bugs, keeps per-circle deploys cheap (around 45k gas vs. 1-2M for a full contract), and gives judges and explorers a clean, individually-inspectable contract per circle.
