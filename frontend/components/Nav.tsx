@@ -15,7 +15,7 @@ export function Nav() {
 
   return (
     <header className="border-b border-sand bg-paper">
-      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4">
+      <div className="mx-auto flex max-w-5xl items-center justify-between px-6 py-4 md:px-16">
         <Link href="/" className="text-lg font-semibold tracking-tight text-ink">
           NairaFlow
         </Link>
@@ -25,7 +25,7 @@ export function Nav() {
               key={link.href}
               href={link.href}
               className={
-                pathname?.startsWith(link.href) ? "text-sm font-medium text-naira" : "text-sm font-medium text-ink/60 hover:text-ink"
+                pathname?.startsWith(link.href) ? "text-sm font-medium text-accent" : "text-sm font-medium text-ink/60 hover:text-ink"
               }
             >
               {link.label}

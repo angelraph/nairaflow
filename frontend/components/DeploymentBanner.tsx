@@ -9,7 +9,7 @@ export function DeploymentBanner() {
 
   if (!isConnected) {
     return (
-      <div className="card mb-6 border-naira/30 bg-naira/5 text-sm text-ink/80">
+      <div className="card mb-6 border-accent/30 bg-accent/5 text-sm text-ink/80">
         Connect a wallet to create or view circles and vaults.
       </div>
     );
@@ -17,7 +17,7 @@ export function DeploymentBanner() {
 
   if (!deployment) {
     return (
-      <div className="card mb-6 border-red-200 bg-red-50 text-sm text-red-800">
+      <div className="card mb-6 border-negative/30 bg-negative/5 text-sm text-negative">
         This network isn't one NairaFlow supports. Switch to Arbitrum Sepolia or Robinhood Chain Testnet.
       </div>
     );
@@ -25,7 +25,7 @@ export function DeploymentBanner() {
 
   if (!ready) {
     return (
-      <div className="card mb-6 border-amber-200 bg-amber-50 text-sm text-amber-800">
+      <div className="card mb-6 border-warn/30 bg-warn/5 text-sm text-warn">
         NairaFlow hasn't been deployed to {deployment.name} yet. Run the deploy script and fill in{" "}
         <code>frontend/deployments/{deployment.chainId}.json</code>.
       </div>

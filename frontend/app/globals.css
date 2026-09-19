@@ -3,28 +3,29 @@
 @tailwind utilities;
 
 :root {
-  color-scheme: light;
+  color-scheme: dark;
 }
 
 body {
-  background-color: #faf8f4;
-  color: #0f1115;
+  background-color: #0f1115;
+  color: #f1f3f5;
+  font-family: var(--font-inter), system-ui, sans-serif;
 }
 
 .card {
-  @apply rounded-2xl border border-sand bg-white p-6 shadow-sm;
+  @apply rounded-lg border border-sand bg-surface p-6;
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-xl bg-naira px-4 py-2 text-sm font-medium text-white transition hover:bg-nairaDark disabled:cursor-not-allowed disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition hover:bg-accentDark disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center rounded-xl border border-sand bg-white px-4 py-2 text-sm font-medium text-ink transition hover:bg-sand/40 disabled:cursor-not-allowed disabled:opacity-50;
+  @apply inline-flex items-center justify-center rounded-lg border border-sand bg-surface px-4 py-2 text-sm font-medium text-ink transition hover:bg-elevated disabled:cursor-not-allowed disabled:opacity-50;
 }
 
 .input {
-  @apply w-full rounded-lg border border-sand bg-white px-3 py-2 text-sm outline-none focus:border-naira;
+  @apply w-full rounded-lg border border-sand bg-surface px-3 py-2 text-sm text-ink outline-none focus:border-accent;
 }
 
 .label {

@@ -5,20 +5,7 @@ import { useReadContracts } from "wagmi";
 import type { Address } from "viem";
 import { savingsCircleAbi, erc20Abi, CircleStatus } from "@/lib/abi";
 import { formatToken, formatAddress, formatCountdown } from "@/lib/format";
-
-const statusLabels: Record<number, string> = {
-  [CircleStatus.Created]: "Filling up",
-  [CircleStatus.Active]: "Active",
-  [CircleStatus.Finished]: "Finished",
-  [CircleStatus.Cancelled]: "Cancelled",
-};
-
-const statusStyles: Record<number, string> = {
-  [CircleStatus.Created]: "bg-amber-100 text-amber-800",
-  [CircleStatus.Active]: "bg-naira/10 text-naira",
-  [CircleStatus.Finished]: "bg-ink/10 text-ink/70",
-  [CircleStatus.Cancelled]: "bg-red-100 text-red-700",
-};
+import { circleStatusLabels, circleStatusStyles } from "@/lib/circleStatus";
 
 export function CircleCard({ address }: { address: Address }) {
   const { data } = useReadContracts({
@@ -52,12 +39,12 @@ export function CircleCard({ address }: { address: Address }) {
   const statusValue = status?.result as number | undefined;
 
   return (
-    <Link href={`/circles/${address}`} className="card flex flex-col gap-3 transition hover:border-naira/40">
+    <Link href={`/circles/${address}`} className="card flex flex-col gap-3 transition hover:border-accent/40">
       <div className="flex items-center justify-between">
         <span className="font-mono text-xs text-ink/50">{formatAddress(address)}</span>
         {statusValue !== undefined && (
-          <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${statusStyles[statusValue]}`}>
-            {statusLabels[statusValue]}
+          <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${circleStatusStyles[statusValue]}`}>
+            {circleStatusLabels[statusValue]}
           </span>
         )}
       </div>

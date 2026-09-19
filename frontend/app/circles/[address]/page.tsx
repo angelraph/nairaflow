@@ -7,13 +7,7 @@ import { waitForTransactionReceipt } from "wagmi/actions";
 import type { Address } from "viem";
 import { savingsCircleAbi, erc20Abi, CircleStatus } from "@/lib/abi";
 import { formatToken, formatAddress, formatCountdown } from "@/lib/format";
-
-const statusLabels: Record<number, string> = {
-  [CircleStatus.Created]: "Filling up",
-  [CircleStatus.Active]: "Active",
-  [CircleStatus.Finished]: "Finished",
-  [CircleStatus.Cancelled]: "Cancelled",
-};
+import { circleStatusLabels, circleStatusStyles } from "@/lib/circleStatus";
 
 export default function CircleDetailPage() {
   const params = useParams();
@@ -126,7 +120,9 @@ export default function CircleDetailPage() {
           </p>
         </div>
         {statusValue !== undefined && (
-          <span className="rounded-full bg-naira/10 px-3 py-1 text-sm font-medium text-naira">{statusLabels[statusValue]}</span>
+          <span className={`rounded-full px-3 py-1 text-sm font-medium ${circleStatusStyles[statusValue]}`}>
+            {circleStatusLabels[statusValue]}
+          </span>
         )}
       </div>
 
@@ -203,18 +199,18 @@ export default function CircleDetailPage() {
                 <div className="flex items-center gap-2">
                   <span className="font-mono text-ink/70">{formatAddress(member)}</span>
                   {account?.toLowerCase() === member.toLowerCase() && (
-                    <span className="rounded bg-naira/10 px-1.5 py-0.5 text-xs text-naira">you</span>
+                    <span className="rounded bg-accent/10 px-1.5 py-0.5 text-xs text-accent">you</span>
                   )}
-                  {defaulted && <span className="rounded bg-red-100 px-1.5 py-0.5 text-xs text-red-700">defaulted</span>}
+                  {defaulted && <span className="rounded bg-negative/10 px-1.5 py-0.5 text-xs text-negative">defaulted</span>}
                   {statusValue === CircleStatus.Active && !defaulted && (
-                    <span className={contributed ? "text-xs text-naira" : "text-xs text-ink/40"}>
+                    <span className={contributed ? "text-xs text-positive" : "text-xs text-ink/40"}>
                       {contributed ? "contributed" : "not yet"}
                     </span>
                   )}
                 </div>
                 <div className="flex gap-4 text-ink/60">
                   <span>deposit {formatToken(deposit, decimals)}</span>
-                  {owed !== undefined && owed > 0n && <span className="text-naira">owed {formatToken(owed, decimals)}</span>}
+                  {owed !== undefined && owed > 0n && <span className="text-positive">owed {formatToken(owed, decimals)}</span>}
                 </div>
               </div>
             );

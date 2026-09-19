@@ -34,10 +34,10 @@ export function VaultCard({ address }: { address: Address }) {
   const unlocked = unlockDate?.result ? Number(unlockDate.result) * 1000 <= Date.now() : false;
 
   return (
-    <Link href={`/vaults/${address}`} className="card flex flex-col gap-3 transition hover:border-naira/40">
+    <Link href={`/vaults/${address}`} className="card flex flex-col gap-3 transition hover:border-accent/40">
       <div className="flex items-center justify-between">
         <span className="font-mono text-xs text-ink/50">{formatAddress(address)}</span>
-        <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${unlocked ? "bg-naira/10 text-naira" : "bg-amber-100 text-amber-800"}`}>
+        <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${unlocked ? "bg-positive/10 text-positive" : "bg-warn/10 text-warn"}`}>
           {unlocked ? "unlocked" : "locked"}
         </span>
       </div>

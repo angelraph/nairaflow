@@ -101,7 +101,7 @@ export default function VaultDetailPage() {
             {formatToken(totalDeposited?.result as bigint, decimals)} {symbol} deposited
           </p>
         </div>
-        <span className={`rounded-full px-3 py-1 text-sm font-medium ${unlocked ? "bg-naira/10 text-naira" : "bg-amber-100 text-amber-800"}`}>
+        <span className={`rounded-full px-3 py-1 text-sm font-medium ${unlocked ? "bg-positive/10 text-positive" : "bg-warn/10 text-warn"}`}>
           {unlocked ? "unlocked" : "locked"}
         </span>
       </div>

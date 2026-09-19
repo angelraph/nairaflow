@@ -119,7 +119,7 @@ export default function ActivityPage() {
         {items.map((item, i) => (
           <div key={`${item.txHash}-${i}`} className="flex items-center justify-between py-3 text-sm">
             <div>
-              <Link href={item.href} className="font-medium text-ink hover:text-naira">
+              <Link href={item.href} className="font-medium text-ink hover:text-accent">
                 {item.label}
               </Link>
               <p className="font-mono text-xs text-ink/50">{formatAddress(item.target)}</p>

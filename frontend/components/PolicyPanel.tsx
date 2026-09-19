@@ -88,8 +88,8 @@ export function PolicyPanel({ target, decimals, symbol }: { target: Address; dec
       </div>
 
       {active ? (
-        <div className="flex flex-col gap-3 rounded-lg bg-naira/5 p-4 text-sm">
-          <p className="text-naira">Agent is authorized on this vault.</p>
+        <div className="flex flex-col gap-3 rounded-lg bg-positive/5 p-4 text-sm">
+          <p className="text-positive">Agent is authorized on this vault.</p>
           <div className="grid grid-cols-2 gap-2 text-ink/70">
             <span>
               Per-tx limit: {formatToken(policy?.[3], decimals)} {symbol}
