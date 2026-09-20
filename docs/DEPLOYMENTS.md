@@ -2,19 +2,19 @@
 
 Every address below comes from an actual `forge script` broadcast (see `contracts/broadcast/`). None are hand-typed.
 
+Both chains were redeployed once, on 2026-09-20, after a real fund-recovery bug turned up on the live Sepolia circle. See [Bug found and fixed via live testnet operation](#bug-found-and-fixed-via-live-testnet-operation) below for the full story. The addresses below are the current, fixed deployment.
+
 ## Arbitrum Sepolia (chain id 421614)
 
 | Contract | Address |
 |---|---|
-| StablecoinRegistry | `0xf941EbebF08638f537041b4896358134A69F704e` |
-| PolicyManager | `0x33b7Cc399e36dB444a2b27B09f04f05920EcC6A7` |
-| AgentExecutor | `0x59fe770a3aaD6046550DC4780C30f71b0C9610A2` |
-| SavingsCircle (implementation) | `0xF1BbC96E7277a62421B6135c7EB56d5C1F080afF` |
-| SavingsCircleFactory | `0xc3f833a6F79b663498d044aC9e962554EF414131` |
-| GoalVault (implementation) | `0xAb5f547d6046213Ba9A38c3c0d49088e032500D1` |
-| GoalVaultFactory | `0x383538B565BD553C95597f8250E5dE058d2E97f1` |
+| StablecoinRegistry | `0x073e33Ecf5d8Dc043f15a02d77AbB7b9891A3556` |
+| PolicyManager | `0xA849faDFb8dFCeD66060bbf71c103328c1a1E713` |
+| AgentExecutor | `0x1142461050763B62DC065eCe1aa65628F9b32249` |
+| SavingsCircleFactory | `0xa806b5984FF3C55E5B4960c4f275f7B277a63AcC` |
+| GoalVaultFactory | `0x719124726A1A481d3beDFEE96144D4b97F5B0b67` |
 | USDC (Circle, real) | `0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d` |
-| mUSDG (mock, see below) | `0x6c6a52510867d76Abc04717953D74CF1223a9a41` |
+| mUSDG (mock, see below) | `0x755f53B1331B55002fE117F052f8F6f70Ba0E3fd` |
 
 Explorer: https://sepolia.arbiscan.io
 
@@ -22,15 +22,13 @@ Explorer: https://sepolia.arbiscan.io
 
 | Contract | Address |
 |---|---|
-| StablecoinRegistry | `0x23AFA712DB6BfD3D5376DA73c57493913aB8d3D1` |
-| PolicyManager | `0x290ab68fFCEaCE40DE43098436967dA2BaC436F6` |
-| AgentExecutor | `0xCBE1A63057f9E1a399CEc8cAfdcBb9DE3382aec8` |
-| SavingsCircle (implementation) | `0x8b0BD84cF5E2D482488b7c3850Be9bF588a55A1a` |
-| SavingsCircleFactory | `0x0Dfe72134CCa08Bf346820F16e3467eaB03aa6C0` |
-| GoalVault (implementation) | `0x480341560FECcfa19FAa19A4f4Cb452593C4ee2c` |
-| GoalVaultFactory | `0xE52dc486e528a6506d702748bfA598b57cD08967` |
-| mUSDC (mock, see below) | `0xAbEA0b38214B1A5FDAc725E63eb1c7EC6b381637` |
-| mUSDG (mock, see below) | `0x52A0D9b9d96A03F318c8D07aC8068Aed5f2016c1` |
+| StablecoinRegistry | `0x8F035Fdf816BAabC173c175eb3f17f81e39980Fd` |
+| PolicyManager | `0x9bFf4eFe3Fc4723Fc8446f2A930bff656C9157F8` |
+| AgentExecutor | `0x93474EE2Bf6bE343873bc64Ee337c31c60feAB15` |
+| SavingsCircleFactory | `0xcEE896f1C3d576849e1CCB575e11D8F3Ee722E6D` |
+| GoalVaultFactory | `0xbf1CbC409cc10B197355da66a3E9C83451441dAf` |
+| mUSDC (mock, see below) | `0xa3517A96D3f4560aEA46749C80c45Ff344Cf4d3c` |
+| mUSDG (mock, see below) | `0x8dDa2CE498922180B553034e2308b6D3111Bc316` |
 
 Explorer: https://explorer.testnet.chain.robinhood.com
 
@@ -61,6 +59,16 @@ A real 3-member savings circle and a policy-gated goal vault were run end to end
 The agent's first attempt at the Sepolia resolution actually failed with a nonce error, because I was independently sending transactions from the same funded account through `cast` at the same time the agent's own wallet client was tracking nonces for it. The agent logged the failure and picked the round back up cleanly on its next poll cycle with no manual intervention, a real (if accidental) proof that a transient failure doesn't take the agent down.
 
 One real, notable difference between the two chains surfaced here: Robinhood Chain's gas price stayed perfectly flat across every sample (its sequencing model is first-come-first-served rather than fee-auction based, per its own docs), so the agent's gas-timing logic never finds a "cheaper" moment there and always falls back to executing once the maximum wait elapses. Arbitrum Sepolia's gas price does fluctuate slightly, giving the gas-aware comparison something real to work with.
+
+## Bug found and fixed via live testnet operation
+
+Running the Sepolia circle for real, past round 0, surfaced a genuine smart contract bug that no unit test had caught.
+
+`distributeUnclaimedPool()` was meant to sweep any dust or forfeited deposits left in a finished circle out to members still in good standing. It computed `goodStanding` by counting members who had never defaulted, then required `goodStanding > 0` before splitting the pool. That assumption broke on the actual deployed circle: after round 0 resolved, members B and C never went on to contribute to rounds 1 and 2 (a real gap in how far the walkthrough had been driven, not a contrived test setup), so by the time the circle reached `Finished`, every member had defaulted at least once. `goodStanding` was `0`, the `require` reverted, and the unclaimed pool became permanently unreachable in that contract instance, since a minimal-proxy clone's logic can't be patched after deployment.
+
+Fix: when `goodStanding == 0`, `distributeUnclaimedPool()` now falls back to splitting the pool across all members instead of reverting. A member who defaulted still contributed real funds to the circle at some point, so including them in the fallback split is the correct outcome, not a workaround. Added a regression test, `test_UnclaimedPool_FallsBackToAllMembersWhenNobodyInGoodStanding()`, that reproduces this exact scenario (every member defaults, pool must still be claimable). Full suite (17 tests) and the funds-conservation invariant test (128,000 fuzzed calls) both pass with the fix in place. New implementation and factory contracts were then deployed to both chains, replacing the addresses in this document.
+
+Honest disclosure: the original Sepolia circle instance, `0x8179989a36a69A72719d5197d28F0067c5f375F2`, still has roughly 6 USDC of testnet play money locked in it. That instance's bytecode is immutable, so the fix cannot reach it retroactively; the funds are stuck there permanently. No real value was lost since this is testnet USDC, but it is left as-is rather than hidden, as direct evidence of the bug that was found and fixed.
 
 ## Local (Anvil, chain id 31337)
 

@@ -258,8 +258,15 @@ contract SavingsCircle is Initializable, ReentrancyGuardUpgradeable, PausableUpg
 
     /// @notice Splits any orphaned pool (from the all-remaining-members-defaulted edge case)
     /// evenly among members who completed the circle without ever defaulting. Callable once
-    /// the circle is finished. Any integer-division remainder (at most goodStanding-1 wei)
+    /// the circle is finished. Any integer-division remainder (at most recipientCount-1 wei)
     /// stays in unclaimedPool and can be swept again in a later call.
+    /// @dev If literally every member defaulted at some point (a real scenario surfaced during
+    /// testnet operation, not just a theoretical one), there is no "good standing" member left
+    /// to receive the pool. Rather than let it sit unrecoverable forever, this falls back to
+    /// splitting it across every member who was ever part of the circle. Members already
+    /// forfeited their own security deposit as the actual default penalty; permanently denying
+    /// them a share of this separate, unclaimed leftover on top of that would only strand real
+    /// funds for no protective benefit.
     function distributeUnclaimedPool() external nonReentrant {
         require(status == Status.Finished, "not finished");
         uint256 pool = unclaimedPool;
@@ -269,20 +276,22 @@ contract SavingsCircle is Initializable, ReentrancyGuardUpgradeable, PausableUpg
         for (uint256 i = 0; i < members.length; i++) {
             if (!defaulted[members[i]]) goodStanding++;
         }
-        require(goodStanding > 0, "no eligible members");
 
-        uint256 share = pool / goodStanding;
+        bool fallbackToAll = goodStanding == 0;
+        uint256 recipientCount = fallbackToAll ? members.length : goodStanding;
+
+        uint256 share = pool / recipientCount;
         if (share == 0) return;
 
         uint256 distributed = 0;
         for (uint256 i = 0; i < members.length; i++) {
-            if (!defaulted[members[i]]) {
+            if (fallbackToAll || !defaulted[members[i]]) {
                 pendingWithdrawal[members[i]] += share;
                 distributed += share;
             }
         }
         unclaimedPool -= distributed;
-        emit UnclaimedPoolDistributed(distributed, goodStanding);
+        emit UnclaimedPoolDistributed(distributed, recipientCount);
     }
 
     function pause() external onlyPlatformAdmin {

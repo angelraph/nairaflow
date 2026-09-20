@@ -228,6 +228,48 @@ contract SavingsCircleTest is Test {
         assertEq(circle.pendingWithdrawal(bob), 0);
     }
 
+    // Reproduces a real scenario found running the live testnet deployment: round 0 pays out
+    // normally, but every member (including round 0's own recipient) then misses every
+    // remaining round. Before the fix, distributeUnclaimedPool() reverted with "no eligible
+    // members" in this exact case, since nobody was left in good standing, permanently
+    // stranding the leftover pool. It must now fall back to splitting across every member.
+    function test_UnclaimedPool_FallsBackToAllMembersWhenNobodyInGoodStanding() public {
+        SavingsCircle circle = _activateThreeMemberCircle();
+
+        // Round 0: everyone contributes, alice is paid.
+        _contributeAll(circle);
+        vm.warp(block.timestamp + ROUND_DURATION + 1);
+        circle.resolveRound();
+        assertEq(circle.pendingWithdrawal(alice), CONTRIBUTION * MAX_MEMBERS);
+
+        // Round 1: nobody contributes, including alice, who already received a payout. All
+        // three default, forfeiting their deposits into the round-1 pool with no eligible
+        // recipient left to receive it.
+        vm.warp(block.timestamp + ROUND_DURATION + 1);
+        circle.resolveRound();
+        assertTrue(circle.defaulted(alice));
+        assertTrue(circle.defaulted(bob));
+        assertTrue(circle.defaulted(carol));
+
+        // Round 2: nobody can contribute anymore (all defaulted), so it resolves immediately
+        // too, and the circle finishes.
+        vm.warp(block.timestamp + ROUND_DURATION + 1);
+        circle.resolveRound();
+        assertEq(uint256(circle.status()), uint256(SavingsCircle.Status.Finished));
+
+        uint256 unclaimed = circle.unclaimedPool();
+        assertEq(unclaimed, CONTRIBUTION * DEPOSIT_MULTIPLIER * MAX_MEMBERS);
+
+        // This must succeed, not revert, even though every member defaulted at some point.
+        circle.distributeUnclaimedPool();
+
+        uint256 share = unclaimed / MAX_MEMBERS;
+        assertEq(circle.pendingWithdrawal(alice), CONTRIBUTION * MAX_MEMBERS + share);
+        assertEq(circle.pendingWithdrawal(bob), share);
+        assertEq(circle.pendingWithdrawal(carol), share);
+        assertEq(circle.unclaimedPool(), unclaimed - share * MAX_MEMBERS);
+    }
+
     function test_ResolveRound_RevertsBeforeDeadline() public {
         SavingsCircle circle = _activateThreeMemberCircle();
         vm.expectRevert(bytes("round still open"));
