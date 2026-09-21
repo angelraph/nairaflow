@@ -8,7 +8,17 @@ import { policyManagerAbi } from "@/lib/abi";
 import { useDeployment } from "@/lib/useDeployment";
 import { formatToken, parseToken } from "@/lib/format";
 
-export function PolicyPanel({ target, decimals, symbol }: { target: Address; decimals: number; symbol: string }) {
+export function PolicyPanel({
+  target,
+  destination,
+  decimals,
+  symbol,
+}: {
+  target: Address;
+  destination: Address;
+  decimals: number;
+  symbol: string;
+}) {
   const { address: account } = useAccount();
   const { deployment } = useDeployment();
   const config = useConfig();
@@ -40,7 +50,7 @@ export function PolicyPanel({ target, decimals, symbol }: { target: Address; dec
         functionName: "setPolicy",
         args: [
           target,
-          target, // allowedDestination: the vault enforces its own fixed destination already
+          destination,
           parseToken(maxPerTx, decimals),
           parseToken(maxPerPeriod, decimals),
           BigInt(Number(periodDays) * 86400),

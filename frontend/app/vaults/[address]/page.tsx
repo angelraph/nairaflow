@@ -143,7 +143,9 @@ export default function VaultDetailPage() {
         </div>
       )}
 
-      <PolicyPanel target={address} decimals={decimals} symbol={symbol} />
+      {destination?.result ? (
+        <PolicyPanel target={address} destination={destination.result as Address} decimals={decimals} symbol={symbol} />
+      ) : null}
     </div>
   );
 }

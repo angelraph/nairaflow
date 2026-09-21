@@ -70,6 +70,10 @@ Fix: when `goodStanding == 0`, `distributeUnclaimedPool()` now falls back to spl
 
 Honest disclosure: the original Sepolia circle instance, `0x8179989a36a69A72719d5197d28F0067c5f375F2`, still has roughly 6 USDC of testnet play money locked in it. That instance's bytecode is immutable, so the fix cannot reach it retroactively; the funds are stuck there permanently. No real value was lost since this is testnet USDC, but it is left as-is rather than hidden, as direct evidence of the bug that was found and fixed.
 
+### A second bug, caught while preparing the demo
+
+While staging the demo vault through the same steps the web app performs, the agent's release reverted with `destination not allowed`. The frontend's Agent policy panel was saving the vault's own address as the policy's allowed destination, but `AgentExecutor` compares that field against the vault's real destination (the owner's wallet). Any policy authorized through the UI would have made every agent release revert. The contracts were correct; the earlier command-line walkthrough set the policy properly, which is why only a UI-driven run exposed it. The panel now passes the vault's actual destination. The staged vault's policy was corrected on chain and the agent then released it on its own: [`0xc94e0122`](https://sepolia.arbiscan.io/tx/0xc94e01224b7a71387c611fc5c1752ce7b3ab871f83a9ae3c54258e76c910802c).
+
 ## Local (Anvil, chain id 31337)
 
 Used only for development smoke-testing, never referenced in the submission.
