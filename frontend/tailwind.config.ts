@@ -1,28 +1,40 @@
 import type { Config } from "tailwindcss";
 
-// Institutional dark palette: recommended for product/dashboard surfaces per the design
-// system spec. Token names kept stable where possible (ink, paper, sand) so existing
-// opacity-modifier usage (text-ink/60, border-sand, etc.) keeps working unchanged; only the
-// underlying values and the accent/positive split are new.
+// Three references mixed on purpose:
+//  - Cosmos style file: near-black flat canvas, graphite cards, hairline borders, no shadows,
+//    ghost pill controls, one weight with wide tracking.
+//  - Wise: plain human language, big readable numerals, and a lime pill for the one primary action.
+//  - Aave: a live stat strip in large numerals at the top of every dashboard view.
+// Token names (paper, surface, sand, ink, accent) are kept so existing utility classes still work.
 const config: Config = {
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   theme: {
     extend: {
       colors: {
-        paper: "#0F1115", // main background
-        surface: "#181B21", // cards, panels
-        elevated: "#1F232B", // modals, hover states
-        sand: "#2A2F38", // borders/dividers
-        ink: "#F1F3F5", // primary text
-        accent: "#3B82F6", // primary actions, links, info
-        accentDark: "#2563EB", // accent hover/active
-        positive: "#22C55E", // success/active/unlocked states
-        negative: "#EF4444", // errors, defaulted states
-        warn: "#F59E0B", // caution, locked states
+        paper: "#000000", // canvas (Void)
+        carbon: "#181818", // nav, footer, inputs
+        surface: "#1e1f20", // cards (Graphite)
+        elevated: "#262728", // hover states
+        sand: "#333333", // hairline borders (Iron)
+        slate: "#807f7f", // muted text
+        ink: "#ffffff", // primary text
+        accent: "#9fe870", // the one primary action color (Wise lime)
+        accentDark: "#b4ef8f", // accent hover
+        limeInk: "#163300", // text on the lime pill
+        positive: "#22e2a8", // live and active state only (Signal Mint)
+        negative: "#ff6b7a", // errors, defaulted
+        warn: "#f5b84a", // caution, locked
       },
       fontFamily: {
-        sans: ["var(--font-inter)", "system-ui", "sans-serif"],
+        sans: ["var(--font-dm-sans)", "ui-sans-serif", "system-ui", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "ui-monospace", "monospace"],
+      },
+      borderRadius: {
+        card: "20px",
+        hero: "30px",
+      },
+      letterSpacing: {
+        tightcaps: "0.08em",
       },
     },
   },

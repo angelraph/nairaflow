@@ -10,10 +10,11 @@ import { wagmiConfig } from "@/lib/wagmiConfig";
 // Matches the app's own dark institutional palette (see tailwind.config.ts) rather than
 // RainbowKit's default light theme, which otherwise looks jarring against the rest of the app.
 const rainbowKitTheme = darkTheme({
-  accentColor: "#3B82F6",
-  accentColorForeground: "#FFFFFF",
-  borderRadius: "medium",
+  accentColor: "#9fe870",
+  accentColorForeground: "#163300",
+  borderRadius: "large",
   fontStack: "system",
+  overlayBlur: "none",
 });
 
 export function Providers({ children }: { children: React.ReactNode }) {

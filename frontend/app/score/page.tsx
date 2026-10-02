@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
@@ -7,6 +7,7 @@ import { getAddress, isAddress, type Address } from "viem";
 import { savingsCircleAbi, savingsCircleFactoryAbi } from "@/lib/abi";
 import { useDeployment } from "@/lib/useDeployment";
 import { DeploymentBanner } from "@/components/DeploymentBanner";
+import { PageHeader } from "@/components/PageHeader";
 import { formatAddress } from "@/lib/format";
 
 interface CircleRecord {
@@ -27,11 +28,11 @@ type Tier = { label: string; style: string };
 
 function tierFor(score: Score): Tier {
   const rounds = score.contributed + score.missed;
-  if (rounds === 0) return { label: "No history yet", style: "bg-elevated text-ink/60" };
+  if (rounds === 0) return { label: "No history yet", style: "border-white/20 bg-white/5 text-slate" };
   const rate = score.contributed / rounds;
-  if (rate >= 0.9) return { label: "Reliable", style: "bg-positive/10 text-positive" };
-  if (rate >= 0.6) return { label: "Mixed", style: "bg-warn/10 text-warn" };
-  return { label: "At risk", style: "bg-negative/10 text-negative" };
+  if (rate >= 0.9) return { label: "Reliable", style: "border-positive/40 bg-positive/10 text-positive" };
+  if (rate >= 0.6) return { label: "Mixed", style: "border-warn/40 bg-warn/10 text-warn" };
+  return { label: "At risk", style: "border-negative/40 bg-negative/10 text-negative" };
 }
 
 export default function ScorePage() {
@@ -124,16 +125,14 @@ export default function ScorePage() {
   const rounds = score ? score.contributed + score.missed : 0;
   const rate = score && rounds > 0 ? Math.round((score.contributed / rounds) * 100) : null;
 
+
   return (
-    <div className="flex flex-col gap-6">
-      <div>
-        <h1 className="text-2xl font-semibold text-ink">Savings score</h1>
-        <p className="mt-2 max-w-2xl text-sm text-ink/70">
-          A record of how reliably any wallet pays into savings circles, read straight from on-chain events. Nothing is
-          stored by NairaFlow and nobody can edit it. It is the start of a credit history for people who save in groups
-          but have no bank record to show for it.
-        </p>
-      </div>
+    <div className="flex flex-col gap-10">
+      <PageHeader
+        tag="Savings score"
+        title="How reliably does a wallet pay in?"
+        description="Read straight from on-chain events. Nothing is stored by NairaFlow and nobody can edit it. It is the start of a credit history for people who save in groups but have no bank record to show for it."
+      />
 
       <DeploymentBanner />
 
@@ -155,42 +154,46 @@ export default function ScorePage() {
           Check score
         </button>
       </form>
-      {input && !valid && <p className="text-xs text-negative">That is not a valid wallet address.</p>}
+      {input && !valid && <p className="-mt-6 text-xs text-negative">That is not a valid wallet address.</p>}
 
-      {loading && <p className="text-sm text-ink/60">Reading on-chain history...</p>}
+      {loading && <p className="text-sm text-slate">Reading on-chain history...</p>}
       {error && <p className="text-sm text-negative">{error}</p>}
 
       {score && tier && !loading && (
         <>
-          <div className="card flex flex-col gap-4">
-            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <span className="break-all font-mono text-xs text-ink/50 sm:text-sm">{lookup}</span>
-              <span className={`w-fit rounded-full px-3 py-1 text-sm font-medium ${tier.style}`}>{tier.label}</span>
+          <div className="card grid items-center gap-8 md:grid-cols-[auto_1fr] md:gap-12">
+            <ScoreRing rate={rate} label={tier.label} />
+            <div className="flex flex-col gap-6">
+              <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                <span className="break-all font-mono text-xs text-slate sm:text-sm">{lookup}</span>
+                <span className={`w-fit rounded-full border px-3 py-1 text-sm ${tier.style}`}>{tier.label}</span>
+              </div>
+              <dl className="grid grid-cols-3 gap-4">
+                <Stat label="Paid" value={String(score.contributed)} />
+                <Stat label="Missed" value={String(score.missed)} />
+                <Stat label="Payouts" value={String(score.payouts)} />
+              </dl>
+              <p className="text-xs leading-relaxed text-slate">
+                On-time rate = contributions paid / (contributions paid + rounds missed). Reliable is 90% or more, Mixed is
+                60% to 89%, At risk is below 60%. Counted on {deployment?.name} only.
+              </p>
             </div>
-            <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
-              <Stat label="On-time rate" value={rate === null ? "-" : `${rate}%`} />
-              <Stat label="Contributions paid" value={String(score.contributed)} />
-              <Stat label="Rounds missed" value={String(score.missed)} />
-              <Stat label="Payouts received" value={String(score.payouts)} />
-            </div>
-            <p className="text-xs text-ink/50">
-              On-time rate = contributions paid / (contributions paid + rounds missed). Reliable is 90% or more, Mixed is
-              60% to 89%, At risk is below 60%. Counted on {deployment?.name} only.
-            </p>
           </div>
 
-          <div className="card">
-            <h2 className="mb-3 text-lg font-semibold text-ink">Circles</h2>
+          <div className="card p-0">
+            <div className="border-b border-sand px-5 py-4 sm:px-6">
+              <h2 className="text-lg tracking-tight text-ink">Circles</h2>
+            </div>
             {score.circles.length === 0 ? (
-              <p className="text-sm text-ink/60">This wallet has not joined a circle on this network.</p>
+              <p className="px-5 py-6 text-sm text-slate sm:px-6">This wallet has not joined a circle on this network.</p>
             ) : (
               <div className="flex flex-col divide-y divide-sand">
                 {score.circles.map((c) => (
-                  <div key={c.circle} className="flex flex-col gap-1 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
-                    <Link href={`/circles/${c.circle}`} className="font-mono text-ink hover:text-accent">
+                  <div key={c.circle} className="flex flex-col gap-1 px-5 py-4 text-sm sm:flex-row sm:items-center sm:justify-between sm:px-6">
+                    <Link href={`/circles/${c.circle}`} className="font-mono text-ink transition hover:text-accent">
                       {formatAddress(c.circle)}
                     </Link>
-                    <span className="text-ink/60">
+                    <span className="text-slate">
                       {c.contributed} paid, {c.missed} missed, {c.payouts} payout{c.payouts === 1 ? "" : "s"}
                     </span>
                   </div>
@@ -204,11 +207,43 @@ export default function ScorePage() {
   );
 }
 
+// A ring gauge in the same concentric-ring language as the rest of the app.
+function ScoreRing({ rate, label }: { rate: number | null; label: string }) {
+  const r = 70;
+  const circumference = 2 * Math.PI * r;
+  const filled = rate === null ? 0 : (rate / 100) * circumference;
+  const stroke = rate === null ? "#807f7f" : rate >= 90 ? "#22e2a8" : rate >= 60 ? "#f5b84a" : "#ff6b7a";
+
+  return (
+    <div className="relative mx-auto h-[200px] w-[200px]" role="img" aria-label={rate === null ? "No history yet" : `On-time rate ${rate} percent, ${label}`}>
+      <svg viewBox="0 0 200 200" className="h-full w-full -rotate-90">
+        <circle cx="100" cy="100" r="92" stroke="#ffffff" strokeOpacity="0.08" strokeWidth="1" fill="none" />
+        <circle cx="100" cy="100" r={r} stroke="#ffffff" strokeOpacity="0.12" strokeWidth="10" fill="none" />
+        <circle
+          cx="100"
+          cy="100"
+          r={r}
+          stroke={stroke}
+          strokeWidth="10"
+          strokeLinecap="round"
+          fill="none"
+          strokeDasharray={`${filled} ${circumference}`}
+          style={{ transition: "stroke-dasharray 1s cubic-bezier(0.2, 0.7, 0.2, 1)" }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex flex-col items-center justify-center">
+        <span className="num text-5xl text-ink">{rate === null ? "-" : `${rate}%`}</span>
+        <span className="mt-1 text-xs tracking-wide text-slate">on-time rate</span>
+      </div>
+    </div>
+  );
+}
+
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <div>
-      <p className="text-xs uppercase tracking-wide text-ink/50">{label}</p>
-      <p className="text-lg font-medium text-ink">{value}</p>
+      <dd className="num text-3xl text-ink">{value}</dd>
+      <dt className="mt-1 text-xs tracking-wide text-slate">{label}</dt>
     </div>
   );
 }

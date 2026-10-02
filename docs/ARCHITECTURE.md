@@ -11,9 +11,25 @@ Both are backed by the same non-custodial guarantee: user funds sit in a contrac
 
 ## Where this sits next to similar ideas in this event
 
-CommitCircle, also submitted to this buildathon, locks a group's USDC in a vault that unlocks by quorum vote or by a deadline. That's a genuinely different mechanic from a rotating savings circle: one shared pool, for one shared goal, released together, once, by agreement. NairaFlow's SavingsCircle is a continuous rotation: a fixed group contributes every round, and one member receives the full pot each round in a known, guaranteed order, exactly how Ajo and Esusu actually run in Nigeria and across the West African diaspora today. Nobody votes on who gets paid next. That's not a missing feature, it's the point: a rotating circle only works because every member already knows exactly when their turn comes. That's also why the security-deposit and default-forfeiture logic exists here and wouldn't make sense in a quorum-unlock model: an unreliable member in a rotation has to be handled automatically and immediately, not put to a vote.
+A scan of the 163 projects in the gallery on 2 October 2026 found four that touch the same ground. They are named here so a reader can compare them directly.
 
-The "agent enforces an on-chain spending policy" pattern behind PolicyManager and AgentExecutor also shows up, independently, in several other AI-agent-focused submissions to this event (Agent Guardian, Fieldcast Buyer Agent, and others). That convergence is a reasonable signal the pattern itself is sound, but it means the pattern alone isn't what NairaFlow is betting on. What none of those projects share with NairaFlow is a named population and a named, already-practiced financial ritual behind the product decisions, not an abstract "agentic finance" pitch.
+**Potluck** is the closest and the strongest. It is a rotating savings circle (hui, arisan, tanda, chit fund) with collateral, a winner's bond, discount auctions, and an on-chain savings record. It has CI, Slither notes, invariant tests, and a "try it alone" mode where in-browser bots let one judge play a whole circle. It is deployed on Robinhood Chain testnet with a test USDG. Where it is ahead of NairaFlow: auction pricing of the pot, and a dedicated reputation registry contract. NairaFlow's savings score is derived from existing events rather than a separate contract, so it is lighter but not equivalent.
+
+**CommitCircle** locks a group's USDC in one vault that unlocks by quorum vote or deadline. That is a different mechanic from a rotation: one pool, one goal, released once by agreement. **Baraza Protocol** is arbitration for chamas and ROSCAs, which sits next to a circle rather than replacing it. **CommitX** is individual stake-to-commit.
+
+What NairaFlow does that none of these do together:
+
+- **Circles and goal vaults in one product,** under one security model. Group saving and personal saving use the same revocable agent policy.
+- **A working agent, not a diagram.** The agent resolves due circle rounds and releases policy-approved vault allowances on its own, and every action is logged on chain with the gas price at execution. The Activity page reads this back from the chain. Across three consecutive vault releases on Arbitrum Sepolia that recorded price fell from about 103M to 75M to 59M wei.
+- **Two chains with identical contracts,** all verified on both explorers, so it qualifies for both the Arbitrum and the Robinhood Chain slots.
+- **Bugs found by operating it,** not only by tests. Two are documented with transaction links in [DEPLOYMENTS.md](DEPLOYMENTS.md), one of which stranded funds in the first Sepolia circle.
+- **A named population.** The product decisions come from how Ajo and Esusu actually run in Nigeria and across the West African diaspora, where every member knows when their turn comes. That is why a missed round is handled automatically by a deposit rather than put to a vote.
+
+The "agent enforces an on-chain spending policy" pattern behind PolicyManager and AgentExecutor also shows up, independently, in about a dozen other submissions (Agent Guardian, AgentVault, Vigiles, Spendkit and others). That convergence suggests the pattern is sound, but it means the pattern alone is not what NairaFlow is betting on.
+
+## Savings score
+
+The Score page (`/score`) reads `MemberJoined`, `Contributed`, `MemberDefaulted` and `RoundResolved` events for any wallet and shows contributions paid, rounds missed, payouts received and an on-time rate. Nothing is stored or editable, and there is no extra contract. The tiers are Reliable at 90% or more, Mixed from 60% to 89%, and At risk below 60%. It is the first step toward a portable credit history for people who save in groups and have no bank record. It only counts NairaFlow circles on the selected network.
 
 ## Why these design choices
 
@@ -41,7 +57,7 @@ Confirmed directly from the hackathon's official Resources page and Robinhood Ch
 
 - **USDC (primary)**: Circle's official testnet contract on Arbitrum Sepolia is `0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d`, confirmed via developers.circle.com (Arbitrum Sepolia row). Faucet: `https://faucet.circle.com`.
 - **mUSDC / mUSDG on Robinhood Chain testnet**: Robinhood Chain's testnet is permissionless, so anyone can deploy a token named "USDC" or "USDG". Querying the Blockscout API turned up a dozen or more tokens using those symbols (`Mock USDG`, `USD Gold (testnet)`, `Global Dollar`, and others) with no canonical or verified marker distinguishing an official one. Rather than guess and risk pointing the demo at an impostor token, NairaFlow deploys its own mock stablecoins on Robinhood Chain testnet, with symbols `mUSDC` and `mUSDG` so the `m` prefix is baked into the on-chain symbol itself and can never be confused for the real token anywhere it's displayed.
-- **USDG on mainnet**: Paxos confirms USDG is issued on Robinhood Chain mainnet, per docs.robinhood.com and globaldollar.com, and is the ecosystem's flagship stablecoin, listed as Robinhood Chain's stablecoin infrastructure partner and bridgeable via LayerZero OFT. No public USDG testnet faucet was found during research. `StablecoinRegistry` is token-agnostic by design, so registering the real address later is a config change, not a contract change.
+- **USDG on mainnet**: Robinhood's own token contracts page (docs.robinhood.com/chain/contracts) lists the canonical USDG on Robinhood Chain mainnet (chain id 4663) at `0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168`. Reading that address on chain returns symbol `USDG` and 6 decimals on mainnet, and no code at all on the testnet, which is why the testnet uses `mUSDG`. No public USDG testnet faucet was found. `StablecoinRegistry` is token-agnostic by design, so using the real token is a config change, not a contract change: the deploy script takes `REAL_USDG_ADDRESS` and `DEPLOY_MOCK_USDC=false` so a mainnet deploy registers only the canonical token and no mocks.
 
 ## Repository layout
 

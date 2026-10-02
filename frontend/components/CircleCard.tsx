@@ -38,29 +38,44 @@ export function CircleCard({ address }: { address: Address }) {
   const decimals = (decimalsResult?.result as number) ?? 6;
   const statusValue = status?.result as number | undefined;
 
+  const members = Number(memberCount?.result ?? 0);
+  const max = Number(maxMembers?.result ?? 0);
+  const fill = max > 0 ? Math.min(100, Math.round((members / max) * 100)) : 0;
+
   return (
-    <Link href={`/circles/${address}`} className="card flex flex-col gap-3 transition hover:border-accent/40">
-      <div className="flex items-center justify-between">
-        <span className="font-mono text-xs text-ink/50">{formatAddress(address)}</span>
+    <Link href={`/circles/${address}`} className="group card flex flex-col gap-6 transition hover:border-white/40">
+      <div className="flex items-center justify-between gap-3">
+        <span className="font-mono text-xs text-slate">{formatAddress(address)}</span>
         {statusValue !== undefined && (
-          <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${circleStatusStyles[statusValue]}`}>
+          <span className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-xs ${circleStatusStyles[statusValue]}`}>
+            {statusValue === CircleStatus.Active && <span className="live-dot h-1.5 w-1.5 rounded-full bg-positive" />}
             {circleStatusLabels[statusValue]}
           </span>
         )}
       </div>
-      <div className="flex items-baseline gap-1">
-        <span className="text-2xl font-semibold text-ink">{formatToken(contributionAmount?.result as bigint, decimals)}</span>
-        <span className="text-sm text-ink/60">{symbol} / round</span>
+
+      <div>
+        <p className="num text-4xl text-ink">
+          {formatToken(contributionAmount?.result as bigint, decimals)}
+          <span className="ml-2 text-base text-slate">{symbol}</span>
+        </p>
+        <p className="mt-1 text-sm text-slate">each round</p>
       </div>
-      <div className="flex justify-between text-sm text-ink/70">
-        <span>
-          {memberCount?.result?.toString() ?? "-"} / {maxMembers?.result?.toString() ?? "-"} members
-        </span>
-        {statusValue === CircleStatus.Active && (
+
+      <div className="flex flex-col gap-2">
+        <div className="h-1 overflow-hidden rounded-full bg-white/10" role="progressbar" aria-valuenow={fill} aria-valuemin={0} aria-valuemax={100} aria-label="Seats filled">
+          <div className="h-full rounded-full bg-accent transition-all" style={{ width: `${fill}%` }} />
+        </div>
+        <div className="flex items-center justify-between text-sm text-slate">
           <span>
-            round {currentRound?.result?.toString()} · {formatCountdown(Number(roundDeadline?.result ?? 0), Math.floor(Date.now() / 1000))}
+            {memberCount?.result?.toString() ?? "-"} of {maxMembers?.result?.toString() ?? "-"} members
           </span>
-        )}
+          {statusValue === CircleStatus.Active && (
+            <span className="text-ink/80">
+              round {Number(currentRound?.result ?? 0) + 1} &middot; {formatCountdown(Number(roundDeadline?.result ?? 0), Math.floor(Date.now() / 1000))}
+            </span>
+          )}
+        </div>
       </div>
     </Link>
   );

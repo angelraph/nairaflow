@@ -37,14 +37,17 @@ export function useTokenList() {
 export function TokenSelect({
   value,
   onChange,
+  id = "c-token",
 }: {
   value: Address | "";
   onChange: (address: Address, decimals: number) => void;
+  id?: string;
 }) {
   const tokens = useTokenList();
 
   return (
     <select
+      id={id}
       className="input"
       value={value}
       onChange={(e) => {

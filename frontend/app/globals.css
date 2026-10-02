@@ -7,27 +7,165 @@
 }
 
 body {
-  background-color: #0f1115;
-  color: #f1f3f5;
-  font-family: var(--font-inter), system-ui, sans-serif;
+  background-color: #000000;
+  color: #ffffff;
+  font-family: var(--font-dm-sans), ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: 0.01em;
+  -webkit-font-smoothing: antialiased;
 }
 
-.card {
-  @apply rounded-lg border border-sand bg-surface p-4 sm:p-6;
+::selection {
+  background: #9fe870;
+  color: #163300;
 }
 
-.btn-primary {
-  @apply inline-flex min-h-[44px] items-center justify-center rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition hover:bg-accentDark disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-0;
+/* Motion. Everything below is switched off for people who ask their device for reduced motion. */
+@keyframes orbit {
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes orbit-rev {
+  to {
+    transform: rotate(-360deg);
+  }
+}
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(22px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+@keyframes ping-soft {
+  0% {
+    transform: scale(1);
+    opacity: 0.55;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+@keyframes drift {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+@keyframes marquee {
+  to {
+    transform: translateX(-50%);
+  }
 }
 
-.btn-secondary {
-  @apply inline-flex min-h-[44px] items-center justify-center rounded-lg border border-sand bg-surface px-4 py-2 text-sm font-medium text-ink transition hover:bg-elevated disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-0;
+.animate-orbit-slow {
+  animation: orbit 60s linear infinite;
+}
+.animate-orbit-mid {
+  animation: orbit 38s linear infinite;
+}
+.animate-orbit-fast {
+  animation: orbit-rev 24s linear infinite;
+}
+.animate-drift {
+  animation: drift 7s ease-in-out infinite;
+}
+.animate-marquee {
+  animation: marquee 38s linear infinite;
+}
+.hero-in {
+  animation: fade-up 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+}
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition: opacity 0.8s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.8s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+.live-dot {
+  position: relative;
+}
+.live-dot::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #22e2a8;
+  animation: ping-soft 2.2s ease-out infinite;
 }
 
-.input {
-  @apply w-full rounded-lg border border-sand bg-surface px-3 py-2 text-base text-ink outline-none focus:border-accent sm:text-sm;
+/* FAQ plus icon turns into a cross when a question is open. */
+details > summary {
+  list-style: none;
+}
+details > summary::-webkit-details-marker {
+  display: none;
+}
+details .faq-icon {
+  transition: transform 0.25s ease;
+}
+details[open] .faq-icon {
+  transform: rotate(45deg);
 }
 
-.label {
-  @apply mb-1 block text-xs font-medium uppercase tracking-wide text-ink/60;
+@media (prefers-reduced-motion: reduce) {
+  .animate-orbit-slow,
+  .animate-orbit-mid,
+  .animate-orbit-fast,
+  .animate-drift,
+  .animate-marquee,
+  .hero-in,
+  .live-dot::after {
+    animation: none !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+@layer components {
+  /* Flat graphite surface with a hairline border. No shadows, no gradients. */
+  .card {
+    @apply rounded-card border border-sand bg-surface p-5 sm:p-6;
+  }
+
+  /* The single filled action: Wise-style lime pill, dark text. */
+  .btn-primary {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full bg-accent px-6 py-2.5 text-sm font-medium text-limeInk transition hover:bg-accentDark disabled:cursor-not-allowed disabled:opacity-40 sm:min-h-0;
+  }
+
+  /* Ghost pill from the Cosmos style: transparent fill, 1px white border. */
+  .btn-secondary {
+    @apply inline-flex min-h-[44px] items-center justify-center gap-2 rounded-full border border-white/70 bg-transparent px-6 py-2.5 text-sm font-medium text-ink transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-40 sm:min-h-0;
+  }
+
+  .input {
+    @apply w-full rounded-[14px] border border-sand bg-carbon px-4 py-3 text-base text-ink outline-none transition placeholder:text-slate focus:border-accent sm:text-sm;
+  }
+
+  .label {
+    @apply mb-1.5 block text-xs font-medium uppercase tracking-tightcaps text-slate;
+  }
+
+  /* Small category tag, like the Cosmos case-study cards. */
+  .tag {
+    @apply text-xs uppercase tracking-tightcaps text-slate;
+  }
+
+  /* Big readable numbers, Wise and Aave style. */
+  .num {
+    @apply font-medium tabular-nums tracking-tight;
+  }
 }

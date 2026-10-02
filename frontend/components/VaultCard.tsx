@@ -34,20 +34,33 @@ export function VaultCard({ address }: { address: Address }) {
   const unlocked = unlockDate?.result ? Number(unlockDate.result) * 1000 <= Date.now() : false;
 
   return (
-    <Link href={`/vaults/${address}`} className="card flex flex-col gap-3 transition hover:border-accent/40">
-      <div className="flex items-center justify-between">
-        <span className="font-mono text-xs text-ink/50">{formatAddress(address)}</span>
-        <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${unlocked ? "bg-positive/10 text-positive" : "bg-warn/10 text-warn"}`}>
-          {unlocked ? "unlocked" : "locked"}
+    <Link href={`/vaults/${address}`} className="group card flex flex-col gap-6 transition hover:border-white/40">
+      <div className="flex items-center justify-between gap-3">
+        <span className="font-mono text-xs text-slate">{formatAddress(address)}</span>
+        <span
+          className={`inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs ${
+            unlocked ? "border-positive/40 bg-positive/10 text-positive" : "border-warn/40 bg-warn/10 text-warn"
+          }`}
+        >
+          {unlocked ? "Unlocked" : "Locked"}
         </span>
       </div>
-      <div className="flex items-baseline gap-1">
-        <span className="text-2xl font-semibold text-ink">{formatToken(totalDeposited?.result as bigint, decimals)}</span>
-        <span className="text-sm text-ink/60">{symbol} deposited</span>
+
+      <div>
+        <p className="num text-4xl text-ink">
+          {formatToken(totalDeposited?.result as bigint, decimals)}
+          <span className="ml-2 text-base text-slate">{symbol}</span>
+        </p>
+        <p className="mt-1 text-sm text-slate">deposited</p>
       </div>
-      <div className="flex justify-between text-sm text-ink/70">
-        <span>owner {owner?.result ? formatAddress(owner.result as string) : "-"}</span>
-        <span>unlocks {unlockDate?.result ? formatDate(Number(unlockDate.result)) : "-"}</span>
+
+      <div className="flex flex-col gap-1 border-t border-sand pt-4 text-sm sm:flex-row sm:items-center sm:justify-between">
+        <span className="text-slate">
+          Owner <span className="font-mono text-ink/80">{owner?.result ? formatAddress(owner.result as string) : "-"}</span>
+        </span>
+        <span className="text-slate">
+          Unlocks <span className="text-ink/80">{unlockDate?.result ? formatDate(Number(unlockDate.result)) : "-"}</span>
+        </span>
       </div>
     </Link>
   );
