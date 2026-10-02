@@ -42,7 +42,9 @@ function loadDeployment(chainId: number): Deployment {
   return raw as Deployment;
 }
 
-export const AGENT_PRIVATE_KEY = process.env.AGENT_PRIVATE_KEY as `0x${string}` | undefined;
+// Secrets pasted into CI settings often carry a trailing newline or space, so trim before use.
+const rawKey = process.env.AGENT_PRIVATE_KEY?.trim();
+export const AGENT_PRIVATE_KEY = (rawKey ? (rawKey.startsWith("0x") ? rawKey : `0x${rawKey}`) : undefined) as `0x${string}` | undefined;
 export const POLL_INTERVAL_MS = Number(process.env.POLL_INTERVAL_MS ?? 30_000);
 
 // 0 means run until stopped. A scheduled job (see .github/workflows/agent.yml) sets this so each run exits
