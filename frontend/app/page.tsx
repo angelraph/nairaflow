@@ -4,7 +4,7 @@ export default function HomePage() {
   return (
     <div className="flex flex-col gap-10">
       <section className="flex flex-col gap-4">
-        <h1 className="text-4xl font-semibold tracking-tight text-ink">Save together. Save on your terms.</h1>
+        <h1 className="text-3xl font-semibold tracking-tight text-ink sm:text-4xl">Save together. Save on your terms.</h1>
         <p className="max-w-2xl text-lg text-ink/70">
           NairaFlow is a non-custodial way to run savings circles and goal-locked savings in stablecoins, built for
           the African diaspora and settled on Arbitrum. Your funds sit in a contract you control. An off-chain agent

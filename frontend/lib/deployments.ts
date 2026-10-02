@@ -13,6 +13,8 @@ export interface Deployment {
   goalVaultFactory: Address | "";
   usdc: Address | "";
   usdg: Address | "";
+  /** First block of the deploy. Public RPCs reject eth_getLogs ranges that start at block 0. */
+  deploymentBlock?: number;
 }
 
 const deployments: Record<number, Deployment> = {

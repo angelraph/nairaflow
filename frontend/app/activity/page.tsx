@@ -24,6 +24,7 @@ const actionTypeLabels = ["Vault release", "Circle round resolved"];
 export default function ActivityPage() {
   const { deployment, ready } = useDeployment();
   const publicClient = usePublicClient();
+  const explorerUrl = publicClient?.chain?.blockExplorers?.default.url;
   const [items, setItems] = useState<ActivityItem[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -34,23 +35,24 @@ export default function ActivityPage() {
     setLoading(true);
 
     async function load() {
+      const fromBlock = BigInt(deployment!.deploymentBlock ?? 0);
       const [agentLogs, circleLogs, vaultLogs] = await Promise.all([
         publicClient!.getLogs({
           address: deployment!.agentExecutor as Address,
           event: agentExecutorAbi[0],
-          fromBlock: 0n,
+          fromBlock,
           toBlock: "latest",
         }),
         publicClient!.getLogs({
           address: deployment!.savingsCircleFactory as Address,
           event: savingsCircleFactoryAbi.find((f) => f.type === "event" && f.name === "CircleCreated")!,
-          fromBlock: 0n,
+          fromBlock,
           toBlock: "latest",
         }),
         publicClient!.getLogs({
           address: deployment!.goalVaultFactory as Address,
           event: goalVaultFactoryAbi.find((f) => f.type === "event" && f.name === "VaultCreated")!,
-          fromBlock: 0n,
+          fromBlock,
           toBlock: "latest",
         }),
       ]);
@@ -117,15 +119,27 @@ export default function ActivityPage() {
 
       <div className="flex flex-col divide-y divide-sand">
         {items.map((item, i) => (
-          <div key={`${item.txHash}-${i}`} className="flex items-center justify-between py-3 text-sm">
-            <div>
+          <div key={`${item.txHash}-${i}`} className="flex flex-col gap-1 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
+            <div className="min-w-0">
               <Link href={item.href} className="font-medium text-ink hover:text-accent">
                 {item.label}
               </Link>
               <p className="font-mono text-xs text-ink/50">{formatAddress(item.target)}</p>
               {item.meta && <p className="text-xs text-ink/40">{item.meta}</p>}
             </div>
-            <span className="text-xs text-ink/50">block {item.blockNumber.toString()}</span>
+            <span className="flex items-center gap-3 text-xs text-ink/50">
+              <span>block {item.blockNumber.toString()}</span>
+              {explorerUrl && item.txHash && (
+                <a
+                  href={`${explorerUrl}/tx/${item.txHash}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-accent hover:underline"
+                >
+                  view tx
+                </a>
+              )}
+            </span>
           </div>
         ))}
       </div>

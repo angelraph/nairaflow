@@ -13,19 +13,19 @@ body {
 }
 
 .card {
-  @apply rounded-lg border border-sand bg-surface p-6;
+  @apply rounded-lg border border-sand bg-surface p-4 sm:p-6;
 }
 
 .btn-primary {
-  @apply inline-flex items-center justify-center rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition hover:bg-accentDark disabled:cursor-not-allowed disabled:opacity-50;
+  @apply inline-flex min-h-[44px] items-center justify-center rounded-lg bg-accent px-4 py-2 text-sm font-medium text-white transition hover:bg-accentDark disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-0;
 }
 
 .btn-secondary {
-  @apply inline-flex items-center justify-center rounded-lg border border-sand bg-surface px-4 py-2 text-sm font-medium text-ink transition hover:bg-elevated disabled:cursor-not-allowed disabled:opacity-50;
+  @apply inline-flex min-h-[44px] items-center justify-center rounded-lg border border-sand bg-surface px-4 py-2 text-sm font-medium text-ink transition hover:bg-elevated disabled:cursor-not-allowed disabled:opacity-50 sm:min-h-0;
 }
 
 .input {
-  @apply w-full rounded-lg border border-sand bg-surface px-3 py-2 text-sm text-ink outline-none focus:border-accent;
+  @apply w-full rounded-lg border border-sand bg-surface px-3 py-2 text-base text-ink outline-none focus:border-accent sm:text-sm;
 }
 
 .label {

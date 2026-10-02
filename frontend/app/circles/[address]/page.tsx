@@ -112,9 +112,9 @@ export default function CircleDetailPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-mono text-sm text-ink/50">{address}</h1>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="break-all font-mono text-xs text-ink/50 sm:text-sm">{address}</h1>
           <p className="mt-1 text-2xl font-semibold text-ink">
             {formatToken(contributionAmount?.result as bigint, decimals)} {symbol} / round
           </p>
@@ -195,8 +195,8 @@ export default function CircleDetailPage() {
             const contributed = memberData?.[i * 4 + 3]?.result as boolean | undefined;
 
             return (
-              <div key={member} className="flex items-center justify-between py-3 text-sm">
-                <div className="flex items-center gap-2">
+              <div key={member} className="flex flex-col gap-2 py-3 text-sm sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-wrap items-center gap-2">
                   <span className="font-mono text-ink/70">{formatAddress(member)}</span>
                   {account?.toLowerCase() === member.toLowerCase() && (
                     <span className="rounded bg-accent/10 px-1.5 py-0.5 text-xs text-accent">you</span>

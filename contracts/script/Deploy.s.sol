@@ -17,7 +17,8 @@ import {MockUSDG} from "../src/mocks/MockUSDG.sol";
 /// require. Set REAL_USDC_ADDRESS to register a real, already-deployed USDC. MockUSDC is only
 /// deployed when no real USDC address is given, so the token list never shows two different
 /// tokens both labeled "USDC". Set DEPLOY_MOCK_USDG=false to skip MockUSDG (e.g. once a real
-/// USDG testnet address is confirmed and registered via REAL_USDG_ADDRESS instead).
+/// USDG testnet address is confirmed and registered via REAL_USDG_ADDRESS instead). Set
+/// DEPLOY_MOCK_USDC=false on a mainnet so no mock token is ever deployed or registered.
 contract Deploy is Script {
     function run() external {
         uint256 deployerKey = vm.envUint("PRIVATE_KEY");
@@ -26,6 +27,7 @@ contract Deploy is Script {
         address realUsdc = vm.envOr("REAL_USDC_ADDRESS", address(0));
         address realUsdg = vm.envOr("REAL_USDG_ADDRESS", address(0));
         bool deployMockUsdg = vm.envOr("DEPLOY_MOCK_USDG", true);
+        bool deployMockUsdc = vm.envOr("DEPLOY_MOCK_USDC", true);
 
         vm.startBroadcast(deployerKey);
 
@@ -35,7 +37,7 @@ contract Deploy is Script {
         if (realUsdc != address(0)) {
             registry.registerToken(realUsdc);
             console.log("Registered real USDC:", realUsdc);
-        } else {
+        } else if (deployMockUsdc) {
             MockUSDC mockUsdc = new MockUSDC();
             registry.registerToken(address(mockUsdc));
             console.log("MockUSDC:", address(mockUsdc));

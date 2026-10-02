@@ -1,12 +1,13 @@
-{
-  "chainId": 46630,
-  "name": "Robinhood Chain Testnet",
-  "note": "Live deployment from contracts/script/Deploy.s.sol. No canonical USDC/USDG token could be confirmed on this permissionless testnet, so both stablecoins here are NairaFlow's own labeled mocks (mUSDC/mUSDG). Redeployed to fix a distributeUnclaimedPool fund-recovery gap found via live testnet operation, see docs/DEPLOYMENTS.md.",
-  "stablecoinRegistry": "0x8F035Fdf816BAabC173c175eb3f17f81e39980Fd",
-  "policyManager": "0x9bFf4eFe3Fc4723Fc8446f2A930bff656C9157F8",
-  "agentExecutor": "0x93474EE2Bf6bE343873bc64Ee337c31c60feAB15",
-  "savingsCircleFactory": "0xcEE896f1C3d576849e1CCB575e11D8F3Ee722E6D",
-  "goalVaultFactory": "0xbf1CbC409cc10B197355da66a3E9C83451441dAf",
-  "usdc": "0xa3517A96D3f4560aEA46749C80c45Ff344Cf4d3c",
-  "usdg": "0x8dDa2CE498922180B553034e2308b6D3111Bc316"
+﻿{
+    "chainId":  46630,
+    "name":  "Robinhood Chain Testnet",
+    "note":  "Live deployment from contracts/script/Deploy.s.sol. No canonical USDC/USDG token could be confirmed on this permissionless testnet, so both stablecoins here are NairaFlow\u0027s own labeled mocks (mUSDC/mUSDG). Redeployed to fix a distributeUnclaimedPool fund-recovery gap found via live testnet operation, see docs/DEPLOYMENTS.md.",
+    "stablecoinRegistry":  "0x8F035Fdf816BAabC173c175eb3f17f81e39980Fd",
+    "policyManager":  "0x9bFf4eFe3Fc4723Fc8446f2A930bff656C9157F8",
+    "agentExecutor":  "0x93474EE2Bf6bE343873bc64Ee337c31c60feAB15",
+    "savingsCircleFactory":  "0xcEE896f1C3d576849e1CCB575e11D8F3Ee722E6D",
+    "goalVaultFactory":  "0xbf1CbC409cc10B197355da66a3E9C83451441dAf",
+    "usdc":  "0xa3517A96D3f4560aEA46749C80c45Ff344Cf4d3c",
+    "usdg":  "0x8dDa2CE498922180B553034e2308b6D3111Bc316",
+    "deploymentBlock":  121935651
 }

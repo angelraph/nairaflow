@@ -94,9 +94,9 @@ export default function VaultDetailPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="font-mono text-sm text-ink/50">{address}</h1>
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <h1 className="break-all font-mono text-xs text-ink/50 sm:text-sm">{address}</h1>
           <p className="mt-1 text-2xl font-semibold text-ink">
             {formatToken(totalDeposited?.result as bigint, decimals)} {symbol} deposited
           </p>
@@ -122,7 +122,7 @@ export default function VaultDetailPage() {
 
       <div className="card flex flex-col gap-4">
         <h2 className="text-lg font-semibold text-ink">Top up this vault</h2>
-        <div className="flex gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row">
           <input className="input" type="number" min="0" value={depositAmount} onChange={(e) => setDepositAmount(e.target.value)} />
           <button className="btn-primary" disabled={pending !== null} onClick={handleDeposit}>
             {pending ? "Working..." : `Deposit ${symbol}`}
@@ -134,7 +134,7 @@ export default function VaultDetailPage() {
       {isOwner && (
         <div className="card flex flex-col gap-4">
           <h2 className="text-lg font-semibold text-ink">Withdraw</h2>
-          <div className="flex gap-3">
+          <div className="flex flex-col gap-3 sm:flex-row">
             <input className="input" type="number" min="0" value={withdrawAmount} onChange={(e) => setWithdrawAmount(e.target.value)} />
             <button className="btn-primary" disabled={pending !== null || !withdrawAmount} onClick={handleWithdraw}>
               {pending ? "Working..." : "Withdraw"}

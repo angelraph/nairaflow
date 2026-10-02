@@ -100,7 +100,7 @@ export function PolicyPanel({
       {active ? (
         <div className="flex flex-col gap-3 rounded-lg bg-positive/5 p-4 text-sm">
           <p className="text-positive">Agent is authorized on this vault.</p>
-          <div className="grid grid-cols-2 gap-2 text-ink/70">
+          <div className="grid gap-2 text-ink/70 sm:grid-cols-2">
             <span>
               Per-tx limit: {formatToken(policy?.[3], decimals)} {symbol}
             </span>
