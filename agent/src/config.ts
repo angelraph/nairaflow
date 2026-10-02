@@ -45,6 +45,10 @@ function loadDeployment(chainId: number): Deployment {
 export const AGENT_PRIVATE_KEY = process.env.AGENT_PRIVATE_KEY as `0x${string}` | undefined;
 export const POLL_INTERVAL_MS = Number(process.env.POLL_INTERVAL_MS ?? 30_000);
 
+// 0 means run until stopped. A scheduled job (see .github/workflows/agent.yml) sets this so each run exits
+// cleanly before the next one starts.
+export const MAX_RUNTIME_MS = Number(process.env.MAX_RUNTIME_MS ?? 0);
+
 // Agent v1 gas-awareness: for actions still inside their flexible window, wait for the current
 // gas price to drop at or below this fraction of the agent's own rolling baseline before
 // executing. 1.0 = execute at or below the recent average; lower is more patient.

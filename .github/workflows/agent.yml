@@ -1,0 +1,39 @@
+name: Agent
+
+# Runs the NairaFlow agent on GitHub's servers so circle rounds and vault releases do not depend on anyone's
+# laptop. Each run polls both testnets for about nine minutes, then exits. GitHub schedules can start several
+# minutes late, so this is best effort. Anyone can still close a due round by hand from the app.
+on:
+  schedule:
+    - cron: "*/10 * * * *"
+  workflow_dispatch:
+
+concurrency:
+  group: nairaflow-agent
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      HAS_KEY: ${{ secrets.AGENT_PRIVATE_KEY != '' }}
+    defaults:
+      run:
+        working-directory: agent
+    steps:
+      - uses: actions/checkout@v4
+        if: env.HAS_KEY == 'true'
+      - uses: actions/setup-node@v4
+        if: env.HAS_KEY == 'true'
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: agent/package-lock.json
+      - run: npm ci
+        if: env.HAS_KEY == 'true'
+      - run: npm start
+        if: env.HAS_KEY == 'true'
+        env:
+          AGENT_PRIVATE_KEY: ${{ secrets.AGENT_PRIVATE_KEY }}
+          MAX_RUNTIME_MS: "540000"

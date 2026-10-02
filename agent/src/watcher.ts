@@ -1,6 +1,6 @@
 import { createPublicClient, createWalletClient, http, type Address, type PublicClient, type WalletClient } from "viem";
 import { privateKeyToAccount } from "viem/accounts";
-import { AGENT_PRIVATE_KEY, GAS_PRICE_TARGET_RATIO, POLL_INTERVAL_MS, targets, type Deployment } from "./config.js";
+import { AGENT_PRIVATE_KEY, GAS_PRICE_TARGET_RATIO, MAX_RUNTIME_MS, POLL_INTERVAL_MS, targets, type Deployment } from "./config.js";
 import { GasOracle } from "./gasOracle.js";
 import { executeCircleResolution, executeVaultRelease, findDueCircleRounds, findDueVaultReleases } from "./executor.js";
 
@@ -93,9 +93,14 @@ async function main() {
   const account = privateKeyToAccount(AGENT_PRIVATE_KEY);
   const states = setupChainStates(account);
 
-  console.log(`NairaFlow agent starting on ${states.length} chain(s). Poll interval: ${POLL_INTERVAL_MS}ms`);
+  console.log(
+    `NairaFlow agent starting on ${states.length} chain(s). Poll interval: ${POLL_INTERVAL_MS}ms` +
+      (MAX_RUNTIME_MS > 0 ? `, will stop after ${Math.round(MAX_RUNTIME_MS / 1000)}s` : "")
+  );
 
-  for (;;) {
+  const stopAt = MAX_RUNTIME_MS > 0 ? Date.now() + MAX_RUNTIME_MS : Number.POSITIVE_INFINITY;
+
+  while (Date.now() < stopAt) {
     for (const state of states) {
       try {
         await pollChain(state);
@@ -103,8 +108,11 @@ async function main() {
         console.error(`[${state.name}] poll error:`, err);
       }
     }
+    if (Date.now() + POLL_INTERVAL_MS >= stopAt) break;
     await new Promise((resolve) => setTimeout(resolve, POLL_INTERVAL_MS));
   }
+
+  console.log("NairaFlow agent run finished.");
 }
 
 main();
