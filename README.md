@@ -1,6 +1,12 @@
+<p align="center">
+  <img src="docs/assets/logo.png" alt="NairaFlow: Save, Rotate, Grow" width="420" />
+</p>
+
 # NairaFlow
 
 Non-custodial stablecoin savings for the African diaspora, built for the Arbitrum Open House Singapore Buildathon.
+
+**Live app:** https://nairaflow-angelraphs-projects.vercel.app &nbsp;|&nbsp; **Docs:** [/docs](https://nairaflow-angelraphs-projects.vercel.app/docs) &nbsp;|&nbsp; **FAQ:** [/faq](https://nairaflow-angelraphs-projects.vercel.app/faq)
 
 NairaFlow has two products sharing one security model:
 
@@ -14,7 +20,7 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design, the verifi
 
 ## Status
 
-Live on Arbitrum Sepolia and Robinhood Chain testnet. Addresses are in [docs/DEPLOYMENTS.md](docs/DEPLOYMENTS.md). Contracts have 17 unit tests and a 128,000-call funds-conservation invariant test (Foundry), plus a Slither run with no High or Medium results. CI runs the tests, Slither and both TypeScript builds on every push. See [SECURITY.md](SECURITY.md) for what is tested, what Slither found, and the trust assumptions. The off-chain agent and frontend are both built and have been run against real transactions on both testnets, not just against local tests.
+Live on Arbitrum Sepolia and Robinhood Chain testnet. Addresses are in [docs/DEPLOYMENTS.md](docs/DEPLOYMENTS.md). Contracts have 22 unit tests and a 128,000-call funds-conservation invariant test (Foundry), plus a Slither run with no High or Medium results. CI runs the tests, Slither and both TypeScript builds on every push. See [SECURITY.md](SECURITY.md) for what is tested, what Slither found, and the trust assumptions. The off-chain agent and frontend are both built and have been run against real transactions on both testnets, not just against local tests.
 
 ## Repository layout
 

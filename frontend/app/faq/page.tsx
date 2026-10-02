@@ -118,7 +118,7 @@ const groups: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
         q: "Has it been audited?",
         a: (
           <>
-            Not by a professional firm. It has 17 unit tests and a funds-conservation invariant test that runs 128,000 random calls, plus a Slither scan with no High or Medium findings. The{" "}
+            Not by a professional firm. It has 22 unit tests and a funds-conservation invariant test that runs 128,000 random calls, plus a Slither scan with no High or Medium findings. The{" "}
             <a className="text-accent hover:underline" href="https://github.com/angelraph/nairaflow/blob/main/SECURITY.md" target="_blank" rel="noopener noreferrer">
               security notes
             </a>{" "}

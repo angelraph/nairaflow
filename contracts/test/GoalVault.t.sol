@@ -142,4 +142,56 @@ contract GoalVaultTest is Test {
         vm.expectRevert(bytes("not agent executor"));
         vault.executeRelease(100e6);
     }
+
+    // A policy decides what the agent may do with a vault, so only that vault's owner may set or revoke it.
+    // Before this was enforced, anyone could set the first policy on any vault and lock the real owner out.
+    address attacker = makeAddr("attacker");
+
+    function test_RevertWhen_NonOwnerSetsPolicyOnSomeoneElsesVault() public {
+        GoalVault vault = _createVault(block.timestamp + 365 days, 500e6, 1 days);
+        vm.prank(attacker);
+        vm.expectRevert(bytes("not target owner"));
+        policyManager.setPolicy(address(vault), attacker, 200e6, 400e6, 1 days, 0);
+    }
+
+    function test_RevertWhen_NonOwnerRevokesOwnersPolicy() public {
+        GoalVault vault = _createVault(block.timestamp + 365 days, 500e6, 1 days);
+        vm.prank(alice);
+        policyManager.setPolicy(address(vault), recipient, 200e6, 400e6, 1 days, 0);
+
+        vm.prank(attacker);
+        vm.expectRevert(bytes("not target owner"));
+        policyManager.revokePolicy(address(vault));
+    }
+
+    function test_RevertWhen_AttackerRegrabsPolicyAfterOwnerRevokes() public {
+        GoalVault vault = _createVault(block.timestamp + 365 days, 500e6, 1 days);
+        vm.startPrank(alice);
+        policyManager.setPolicy(address(vault), recipient, 200e6, 400e6, 1 days, 0);
+        policyManager.revokePolicy(address(vault));
+        vm.stopPrank();
+
+        vm.prank(attacker);
+        vm.expectRevert(bytes("not target owner"));
+        policyManager.setPolicy(address(vault), attacker, 200e6, 400e6, 1 days, 0);
+    }
+
+    function test_OwnerCanReplacePolicyAndRevokeAgain() public {
+        GoalVault vault = _createVault(block.timestamp + 365 days, 500e6, 1 days);
+        vm.startPrank(alice);
+        policyManager.setPolicy(address(vault), recipient, 200e6, 400e6, 1 days, 0);
+        policyManager.setPolicy(address(vault), recipient, 100e6, 300e6, 1 days, 0);
+        policyManager.revokePolicy(address(vault));
+        vm.stopPrank();
+
+        (bool active,, , uint256 maxPerTx,,,) = policyManager.policies(address(vault));
+        assertFalse(active);
+        assertEq(maxPerTx, 100e6);
+    }
+
+    function test_RevertWhen_SettingPolicyOnANonContract() public {
+        vm.prank(alice);
+        vm.expectRevert();
+        policyManager.setPolicy(makeAddr("notAVault"), recipient, 200e6, 400e6, 1 days, 0);
+    }
 }

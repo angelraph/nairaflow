@@ -222,14 +222,14 @@ export default function DocsPage() {
 
           <Section id="security" title="Security">
             <ul className="list-disc space-y-2 pl-5">
-              <li>17 unit tests and a funds-conservation invariant test that runs 128,000 random calls.</li>
+              <li>22 unit tests and a funds-conservation invariant test that runs 128,000 random calls.</li>
               <li>Slither static analysis: no High or Medium findings. The 16 Low results are triaged in the security notes.</li>
               <li>Payouts are pull based, and state-changing functions are guarded against reentrancy.</li>
               <li>A platform admin can pause a circle or vault. It cannot move funds.</li>
               <li>Not audited by a professional firm. Testnet software.</li>
             </ul>
             <p>
-              Two real bugs were found by operating the deployed system and are written up with transaction links in the{" "}
+              Three real bugs were found by operating and reviewing the deployed system and are written up in the{" "}
               <a className="text-accent hover:underline" href={`${repo}/blob/main/docs/DEPLOYMENTS.md`} target="_blank" rel="noopener noreferrer">
                 deployments document
               </a>

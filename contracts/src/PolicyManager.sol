@@ -3,11 +3,15 @@ pragma solidity ^0.8.24;
 
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 
-/// @notice Per-target (vault or circle) spending policy: which destination and limits a user
-/// has authorized the off-chain agent to act within. Owner-set, instantly revocable, and
-/// deliberately independent of the target's own unlock/period rules. This only governs
-/// whether the AGENT is currently allowed to trigger an action at all, not what the target
-/// contract's own business logic separately permits.
+interface IOwnedTarget {
+    function owner() external view returns (address);
+}
+
+/// @notice Per-target (vault) spending policy: which destination and limits a user has
+/// authorized the off-chain agent to act within. Only the target's own owner can set or revoke
+/// it, it is instantly revocable, and it is deliberately independent of the target's own
+/// unlock/period rules. This only governs whether the AGENT is currently allowed to trigger an
+/// action at all, not what the target contract's own business logic separately permits.
 contract PolicyManager is Ownable {
     struct Policy {
         bool active;
@@ -48,9 +52,14 @@ contract PolicyManager is Ownable {
         emit ExecutorUpdated(newExecutor);
     }
 
-    /// @notice Grants (or replaces) a policy for `target`. Only the current policy owner (or,
-    /// if none exists yet, anyone establishing the first one) may set it. In practice this is
-    /// always called by the vault/circle owner from the frontend.
+    /// @dev Authority over a policy comes from owning the target itself. Without this check anyone
+    /// could set the first policy on any vault, become its "policy owner", and lock the real owner
+    /// out of revoking or replacing it.
+    function _requireTargetOwner(address target) internal view {
+        require(IOwnedTarget(target).owner() == msg.sender, "not target owner");
+    }
+
+    /// @notice Grants (or replaces) a policy for `target`. Only the target's owner may call this.
     function setPolicy(
         address target,
         address allowedDestination,
@@ -59,8 +68,7 @@ contract PolicyManager is Ownable {
         uint256 periodLength,
         uint256 expiry
     ) external {
-        Policy storage existing = policies[target];
-        require(!existing.active || existing.owner == msg.sender, "not policy owner");
+        _requireTargetOwner(target);
         require(maxPerTx > 0 && maxPerPeriod > 0 && periodLength > 0, "bad limits");
 
         policies[target] = Policy({
@@ -79,9 +87,9 @@ contract PolicyManager is Ownable {
     /// @notice Instantly revokes the agent's authority over `target`. The next agent attempt
     /// reverts in checkAndConsume. This is the "revoke live" demo moment.
     function revokePolicy(address target) external {
+        _requireTargetOwner(target);
         Policy storage p = policies[target];
         require(p.active, "no active policy");
-        require(p.owner == msg.sender, "not policy owner");
         p.active = false;
         emit PolicyRevoked(target, msg.sender);
     }

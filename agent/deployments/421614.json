@@ -1,12 +1,12 @@
 {
-  "chainId": 421614,
-  "name": "Arbitrum Sepolia",
-  "note": "Live deployment from contracts/script/Deploy.s.sol. Redeployed to fix a distributeUnclaimedPool fund-recovery gap found via live testnet operation, see docs/DEPLOYMENTS.md.",
-  "stablecoinRegistry": "0x073e33Ecf5d8Dc043f15a02d77AbB7b9891A3556",
-  "policyManager": "0xA849faDFb8dFCeD66060bbf71c103328c1a1E713",
-  "agentExecutor": "0x1142461050763B62DC065eCe1aa65628F9b32249",
-  "savingsCircleFactory": "0xa806b5984FF3C55E5B4960c4f275f7B277a63AcC",
-  "goalVaultFactory": "0x719124726A1A481d3beDFEE96144D4b97F5B0b67",
-  "usdc": "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
-  "usdg": "0x755f53B1331B55002fE117F052f8F6f70Ba0E3fd"
+    "chainId":  421614,
+    "name":  "Arbitrum Sepolia",
+    "note":  "Live deployment from contracts/script/Deploy.s.sol. PolicyManager now checks that only the target vault\u0027s owner can set or revoke its policy, see docs/DEPLOYMENTS.md.",
+    "stablecoinRegistry":  "0x36A7e4945aa7b22F5E61Bc0055013D9Dbdd71c03",
+    "policyManager":  "0x28D4f7C79A26C7C8f23e39Bd57CB6e895bd59B69",
+    "agentExecutor":  "0x2f00B3d6392D1D98069Ff6E1B355f812948E93B7",
+    "savingsCircleFactory":  "0xAaB3F8C973b16207821C6C93c595fCaCa7D92842",
+    "goalVaultFactory":  "0x5863AF77A5e0978B7cF140F2D18081E08de2bB0d",
+    "usdc":  "0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d",
+    "usdg":  "0x84C219D6C228F309061C8F44fab98648DE26A1c1"
 }
