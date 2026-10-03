@@ -63,7 +63,7 @@ export default function VaultDetailPage() {
   const symbol = (tokenMeta?.[0]?.result as string) ?? "";
   const decimals = (tokenMeta?.[1]?.result as number) ?? 6;
 
-  const { data: allowance } = useReadContract({
+  const { data: allowance, refetch: refetchAllowance } = useReadContract({
     address: tokenAddress,
     abi: erc20Abi,
     functionName: "allowance",
@@ -77,7 +77,7 @@ export default function VaultDetailPage() {
     try {
       const hash = await fn();
       await waitForTransactionReceipt(config, { hash });
-      await refetch();
+      await Promise.all([refetch(), refetchAllowance()]);
     } catch (err) {
       console.error(err);
       setError("That transaction was cancelled or failed. Nothing changed.");

@@ -53,17 +53,17 @@ export default function CircleDetailPage() {
   const symbol = (tokenMeta?.[0]?.result as string) ?? "";
   const decimals = (tokenMeta?.[1]?.result as number) ?? 6;
 
-  const { data: memberData } = useReadContracts({
+  const { data: memberData, refetch: refetchMembers } = useReadContracts({
     contracts: memberList.flatMap((m) => [
       { address, abi: savingsCircleAbi, functionName: "defaulted", args: [m] } as const,
       { address, abi: savingsCircleAbi, functionName: "depositBalance", args: [m] } as const,
       { address, abi: savingsCircleAbi, functionName: "pendingWithdrawal", args: [m] } as const,
       { address, abi: savingsCircleAbi, functionName: "hasContributed", args: [BigInt(currentRoundValue), m] } as const,
     ]),
-    query: { enabled: memberList.length > 0 },
+    query: { enabled: memberList.length > 0, refetchInterval: 8000 },
   });
 
-  const { data: myAllowance } = useReadContract({
+  const { data: myAllowance, refetch: refetchAllowance } = useReadContract({
     address: tokenAddress,
     abi: erc20Abi,
     functionName: "allowance",
@@ -88,7 +88,7 @@ export default function CircleDetailPage() {
     try {
       const hash = await fn();
       await waitForTransactionReceipt(config, { hash });
-      await refetch();
+      await Promise.all([refetch(), refetchMembers(), refetchAllowance()]);
     } catch (err) {
       console.error(err);
       setError("That transaction was cancelled or failed. Nothing changed.");
