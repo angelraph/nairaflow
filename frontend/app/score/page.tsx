@@ -8,6 +8,7 @@ import { savingsCircleAbi, savingsCircleFactoryAbi } from "@/lib/abi";
 import { useDeployment } from "@/lib/useDeployment";
 import { DeploymentBanner } from "@/components/DeploymentBanner";
 import { PageHeader } from "@/components/PageHeader";
+import { getLogsSafe } from "@/lib/logs";
 import { formatAddress } from "@/lib/format";
 
 interface CircleRecord {
@@ -83,8 +84,8 @@ export default function ScorePage() {
       const eventLogs = async (name: string, args: Record<string, Address>) => {
         const event = savingsCircleAbi.find((f) => f.type === "event" && f.name === name)!;
         const fromBlock = BigInt(deployment!.deploymentBlock ?? 0);
-        const logs = await publicClient!.getLogs({ address: circles, event, args, fromBlock, toBlock: "latest" } as never);
-        return logs as unknown as { address: Address }[];
+        const logs = await getLogsSafe(publicClient!, { address: circles, event, args, fromBlock, toBlock: "latest" });
+        return logs as { address: Address }[];
       };
       const [joined, contributedLogs, defaultedLogs, payoutLogs] = await Promise.all([
         eventLogs("MemberJoined", { member: lookup! }),

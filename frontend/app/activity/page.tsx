@@ -8,6 +8,7 @@ import { agentExecutorAbi, savingsCircleFactoryAbi, goalVaultFactoryAbi } from "
 import { useDeployment } from "@/lib/useDeployment";
 import { DeploymentBanner } from "@/components/DeploymentBanner";
 import { PageHeader } from "@/components/PageHeader";
+import { getLogsSafe } from "@/lib/logs";
 import { formatAddress } from "@/lib/format";
 
 interface ActivityItem {
@@ -55,19 +56,19 @@ export default function ActivityPage() {
     async function load() {
       const fromBlock = BigInt(deployment!.deploymentBlock ?? 0);
       const [agentLogs, circleLogs, vaultLogs] = await Promise.all([
-        publicClient!.getLogs({
+        getLogsSafe(publicClient!, {
           address: deployment!.agentExecutor as Address,
           event: agentExecutorAbi[0],
           fromBlock,
           toBlock: "latest",
         }),
-        publicClient!.getLogs({
+        getLogsSafe(publicClient!, {
           address: deployment!.savingsCircleFactory as Address,
           event: savingsCircleFactoryAbi.find((f) => f.type === "event" && f.name === "CircleCreated")!,
           fromBlock,
           toBlock: "latest",
         }),
-        publicClient!.getLogs({
+        getLogsSafe(publicClient!, {
           address: deployment!.goalVaultFactory as Address,
           event: goalVaultFactoryAbi.find((f) => f.type === "event" && f.name === "VaultCreated")!,
           fromBlock,

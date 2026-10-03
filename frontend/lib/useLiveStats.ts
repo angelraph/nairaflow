@@ -5,6 +5,7 @@ import { usePublicClient, useReadContract } from "wagmi";
 import type { Address } from "viem";
 import { agentExecutorAbi, goalVaultFactoryAbi, savingsCircleFactoryAbi } from "@/lib/abi";
 import { useDeployment } from "@/lib/useDeployment";
+import { getLogsSafe } from "@/lib/logs";
 
 export interface LastAgentAction {
   gasPriceWei: bigint;
@@ -38,13 +39,12 @@ export function useLiveStats() {
     let cancelled = false;
     setAgent(null);
 
-    publicClient
-      .getLogs({
-        address: deployment.agentExecutor as Address,
-        event: agentExecutorAbi[0],
-        fromBlock: BigInt(deployment.deploymentBlock ?? 0),
-        toBlock: "latest",
-      })
+    getLogsSafe(publicClient, {
+      address: deployment.agentExecutor as Address,
+      event: agentExecutorAbi[0],
+      fromBlock: BigInt(deployment.deploymentBlock ?? 0),
+      toBlock: "latest",
+    })
       .then((logs) => {
         if (cancelled) return;
         const last = logs[logs.length - 1] as

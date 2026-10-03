@@ -31,8 +31,8 @@ const connectors = connectorsForWallets(
 // NEXT_PUBLIC_ARBITRUM_SEPOLIA_RPC_URL (for example an Alchemy URL) takes priority when set.
 const sepoliaRpcs: (string | undefined)[] = [
   process.env.NEXT_PUBLIC_ARBITRUM_SEPOLIA_RPC_URL || undefined,
+  undefined, // Arbitrum's own endpoint: slower at times, but it allows very wide log queries
   "https://arbitrum-sepolia-rpc.publicnode.com",
-  undefined,
 ].filter((url, i) => i !== 0 || Boolean(url));
 
 const transports = Object.fromEntries(
