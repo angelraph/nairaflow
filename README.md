@@ -26,11 +26,11 @@ Live on Arbitrum Sepolia and Robinhood Chain testnet. Addresses are in [docs/DEP
 
 `contracts/` is the Foundry project: SavingsCircle, GoalVault, PolicyManager, AgentExecutor, StablecoinRegistry, and their factories, plus the test suite.
 
-`agent/` is the Node/TypeScript off-chain executor that watches for due circle rounds and policy-authorized vault releases.
+`agent/` is the Node/TypeScript off-chain executor that watches for due circle rounds and policy-authorized vault releases. It can run anywhere (`npm start`), and `.github/workflows/agent.yml` runs it on a GitHub schedule with its own testnet-only key. GitHub treats schedules as best effort, so any member can also close a due round by hand from the app.
 
-`frontend/` is the Next.js app.
+`frontend/` is the Next.js app: landing page, circles, vaults, savings score, activity feed, docs and FAQ.
 
-`docs/` holds architecture notes, live deployment addresses, and the demo script.
+`docs/` holds architecture notes, live deployment addresses, the submission copy, and the demo script.
 
 ## Development
 

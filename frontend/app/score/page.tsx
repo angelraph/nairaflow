@@ -46,6 +46,15 @@ export default function ScorePage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  // A link like /score?address=0x... opens straight to that wallet's record, so a score can be shared.
+  useEffect(() => {
+    const fromLink = new URLSearchParams(window.location.search).get("address");
+    if (fromLink && isAddress(fromLink)) {
+      setInput(fromLink);
+      setLookup(getAddress(fromLink));
+    }
+  }, []);
+
   useEffect(() => {
     if (connected && !input) {
       setInput(connected);

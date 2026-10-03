@@ -47,7 +47,8 @@ Three real defects were found by operating or reviewing the deployed system, not
 ## Known limits and trust assumptions
 
 - A platform admin (the deployer wallet) can pause circles and vaults and manage the stablecoin registry. This is an emergency brake, disclosed here as a centralization tradeoff. Production use would put it behind a timelocked multisig.
-- The agent key is a plain hot key. It can only trigger actions the contracts already allow, but losing it lets an attacker trigger those same allowed actions early or repeatedly within policy limits.
+- The agent key is a plain hot key. It can only trigger actions the contracts already allow, but losing it lets an attacker trigger those same allowed actions early or repeatedly within policy limits. The scheduled cloud job (`.github/workflows/agent.yml`) uses its own dedicated key, stored as a GitHub repository secret, that holds only testnet gas and the agent role. Anyone with write access to the repository's workflows could read that secret, which is acceptable for a testnet key and would not be for a production one.
+- Scheduled GitHub jobs are best effort. In practice the schedule ran far less often than its 10 minute setting, so the agent is a convenience and not something anyone should rely on for timing. Any member can close a due round by hand.
 - `mUSDC` and `mUSDG` on Robinhood Chain testnet and `mUSDG` on Arbitrum Sepolia are NairaFlow's own test tokens with a public `mint`. Do not treat them as real stablecoins.
 - Fee-on-transfer and rebasing tokens are not supported. The registry only allows tokens the owner has approved.
 - A token that can freeze addresses (USDG can) could freeze one member's balance. Payouts are pull based, so one frozen address cannot block the rest of a circle.
