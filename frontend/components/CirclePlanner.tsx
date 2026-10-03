@@ -55,7 +55,7 @@ export function CirclePlanner() {
         </div>
         <div>
           <label className="label" htmlFor="plan-days">
-            Days / round
+            Round days
           </label>
           <input id="plan-days" className="input num" type="number" min={1} max={90} value={days} onChange={(e) => setDays(e.target.value)} />
         </div>
