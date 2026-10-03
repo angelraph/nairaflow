@@ -1,0 +1,61 @@
+=== MAIN POST (X Premium, attach the video) ===
+
+In Nigeria, millions of people save through Ajo (Esusu). A group pays in every round, one person takes the whole pot, until everyone has had a turn.
+
+It runs on trust. And it breaks the day someone stops paying, or the person holding the money disappears.
+
+So I built NairaFlow for the @arbitrum Open House Singapore buildathon: Ajo on-chain, in stablecoins, where nobody holds the money.
+
+What it does:
+
+> Savings circles. Every circle is its own contract. Miss a round and your deposit covers the pot, so the circle carries on.
+
+> Goal vaults. Lock money until a date you pick, with an optional daily allowance. Family can top it up.
+
+> An agent that can't run off with your money. It closes rounds and releases allowances inside limits you set. Revoke it in one click and its next attempt fails on chain with "policy inactive".
+
+> A savings score read straight from public events. The start of a credit record for people with no bank history.
+
+This is not a mockup. Every transaction in the demo is real, on Arbitrum Sepolia and Robinhood Chain testnet.
+
+And it is deployed on Robinhood Chain mainnet with Paxos' real USDG as the only token. No mock tokens. All 7 contracts verified.
+
+23 tests. A 128,000 call funds invariant. 0 high or medium Slither findings. Every contract verified.
+
+I also found 3 real bugs by running it and reviewing it. One let anyone set an agent policy on someone else's vault. I fixed it, wrote tests that fail without the fix, redeployed, and left the evidence public.
+
+Try it: https://nairaflow-angelraphs-projects.vercel.app
+Code: https://github.com/angelraph/nairaflow
+
+Save. Rotate. Grow.
+
+#Arbitrum #ArbitrumOpenHouse #Stablecoins #Web3 #Ajo
+
+
+=== SHORT VERSION (under 280 characters) ===
+
+Millions of Nigerians save through Ajo. It breaks when someone stops paying or the holder disappears.
+
+NairaFlow puts Ajo on @arbitrum so nobody holds the money. Live on Robinhood Chain with real USDG. Agent you can revoke in one click.
+
+Demo below.
+#ArbitrumOpenHouse
+
+
+=== REPLY 1 (post under the main post) ===
+
+How the agent stays honest: it never holds your funds. Every action is checked on chain against limits you set (destination, per transaction, per period, expiry). Each one is logged with the gas price at the moment it acted, so you can verify the timing yourself on the explorer.
+
+
+=== REPLY 2 ===
+
+The bug I'm proudest of finding: PolicyManager let anyone set the FIRST agent policy on any vault, and then the real owner couldn't revoke it. No funds at risk, but it was an authorization hole. 4 of the 5 new tests failed before the fix. Full write-up in the repo: https://github.com/angelraph/nairaflow/blob/main/docs/DEPLOYMENTS.md
+
+
+=== OPTIONAL HOOKS (swap in as the first line) ===
+
+1. "Ajo has one weak point: whoever holds the money."
+2. "What if the person holding the Ajo money was a smart contract?"
+3. "Esusu, Tanda, Hui, Chama, Susu. Same idea, one weak point. I fixed it."
+
+(Attach the video to the main post. The video shows the testnet walkthrough; mainnet is deployed and verified, see docs/DEPLOYMENTS.md. Tag the organizers' accounts you want on top of @arbitrum.)

@@ -118,7 +118,7 @@ Fix: `setPolicy` and `revokePolicy` now require the caller to be the owner of th
 
 ## Walkthrough on the current deployment
 
-The same flow was staged again on the current contracts. Each circle has 2 members, a 0.5 contribution, 1 hour rounds and a 1x deposit, and both members paid round 0. Each vault holds 2 tokens with a 1 per day allowance and an agent policy set by its owner. Results from the agent are added below as they land on chain.
+The same flow was staged again on the current contracts. Each circle has 2 members, a 0.5 contribution, 1 hour rounds and a 1x deposit, and both members paid round 0. Each vault holds 2 tokens with a 1 per day allowance and an agent policy set by its owner. The agent results are below. They are real transactions sent by the agent address `0xa8D457Fe25146831de9b52F2041E5839A1EBe817` with no manual trigger.
 
 **Arbitrum Sepolia**
 
@@ -131,6 +131,19 @@ The same flow was staged again on the current contracts. Each circle has 2 membe
 - Circle: [`0x4ca62b3A…3AbF`](https://explorer.testnet.chain.robinhood.com/address/0x4ca62b3A01a57fFE0112bC91ed0684dD0F513AbF), created in [`0xb2e5d086`](https://explorer.testnet.chain.robinhood.com/tx/0xb2e5d08681ea5f19c77ce0e2ba945598fa07e426b5c3b08eb5602303f255dbf4)
 - Vault: [`0x7eA6F38d…32b7`](https://explorer.testnet.chain.robinhood.com/address/0x7eA6F38d082572Cf663867AB7bF658eE5A8432b7), created in [`0xf0296a12`](https://explorer.testnet.chain.robinhood.com/tx/0xf0296a125b6a226e86e9cd19ee4f7742d75a238ee5c67644626603c57d4bf382)
 - Owner sets the agent policy: [`0xbdfd3be1`](https://explorer.testnet.chain.robinhood.com/tx/0xbdfd3be11081426d143432de44454d4ac01f4bf968e5457630a666831fa69976)
+
+**What the agent did on its own.**
+
+- Arbitrum Sepolia, vault release inside the owner's policy: [`0x7ed6f280…5835`](https://sepolia.arbiscan.io/tx/0x7ed6f2809a55002f42203cec98fc8a9f51c0ad9a21f277fed02de9d9778e5835), and a later one, [`0x1d892130…58ee`](https://sepolia.arbiscan.io/tx/0x1d89213041920e6deb343d21ccf5b7fbfaccf89f4ceb58912eda94a0f4d258ee)
+- Robinhood Chain Testnet, vault release: [`0x245e29d7…8819`](https://explorer.testnet.chain.robinhood.com/tx/0x245e29d7cd902001a0b9041a8580c3f57341a8b1293e0cea709590f611698819), and a later one, [`0x02c086da…488b1`](https://explorer.testnet.chain.robinhood.com/tx/0x02c086daeb1e0bb55e0eb90aae6de28bbb3033922b692da1421b5971bca488b1)
+- Rounds on the first two circles closed by the agent after every member defaulted: Arbitrum Sepolia [`0x1c541479…6e50`](https://sepolia.arbiscan.io/tx/0x1c5414794afbe7985cf4a4fbb9ae92850fb01ae0283c58ff52a1395d042a6e50) and Robinhood [`0xa36ba7ce…6345`](https://explorer.testnet.chain.robinhood.com/tx/0xa36ba7ce9378406193158c7a696843b5541554ad1a23845047c925ad8c226345). The unclaimed pool was then distributed and withdrawn, which is the recovery path the first bug fix added.
+
+**A clean run to the end.** A second pair of circles was staged where both members paid every round. The agent closed both rounds on each network and both circles reached Finished with nobody defaulted. Each member ended with funds ready to withdraw (0.9 on Sepolia, 1.5 on Robinhood, deposit included), and the pool balance is 0.
+
+- Arbitrum Sepolia circle [`0xcc8Aa99E…DC1b`](https://sepolia.arbiscan.io/address/0xcc8Aa99Edf0F498FBCC1276d55D3041C70B6DC1b): round 0 [`0x69b67c51…01ac`](https://sepolia.arbiscan.io/tx/0x69b67c51a463ae4f770628f06d4e983da68d8c7bb1e6c8eb955e00c7ab7301ac), round 1 [`0x7a137c90…822f`](https://sepolia.arbiscan.io/tx/0x7a137c9056a4ede3e1c983354485ae500961f5a7a8cfe6086e257b727b8b822f)
+- Robinhood Chain Testnet circle [`0x81d02f78…08C5`](https://explorer.testnet.chain.robinhood.com/address/0x81d02f7842F9a50437fab07a9432DFe906a808C5): round 0 [`0xefded5ae…de5d`](https://explorer.testnet.chain.robinhood.com/tx/0xefded5aebb5a6c19664465f04eb73186e9ed629c75b1af9c4df26b6974dade5d), round 1 [`0x2d21af43…0251`](https://explorer.testnet.chain.robinhood.com/tx/0x2d21af43308a726e264cd0f9b0a3e16ae4f92e44019e2881cce6207583df0251)
+
+**Mainnet.** The same contracts are deployed and verified on Robinhood Chain mainnet with the real USDG, see [Robinhood Chain mainnet](#robinhood-chain-mainnet-chain-id-4663). No user funds have been run through the mainnet circles or vaults yet, so everything above that involves live rounds and agent actions was done on the testnets.
 
 **The ownership fix, on chain.** On both networks a second wallet that does not own the vault tried to call `setPolicy` and `revokePolicy` on it. Both calls reverted with `not target owner`.
 
