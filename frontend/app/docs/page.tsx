@@ -147,7 +147,7 @@ export default function DocsPage() {
             </p>
             <H3>Gas and the activity log</H3>
             <p>
-              For vault releases the agent may wait up to ten minutes for a lower gas price, then acts anyway so your
+              For vault releases the agent may wait up to four minutes for a lower gas price, then acts anyway so your
               schedule is honored. Every action emits an event with the gas price at that moment, and the Activity page reads
               those events back from the chain with a link to each transaction.
             </p>

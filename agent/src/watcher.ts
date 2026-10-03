@@ -6,7 +6,8 @@ import { executeCircleResolution, executeVaultRelease, findDueCircleRounds, find
 
 // Don't stall a due, policy-authorized vault release waiting for cheaper gas beyond this.
 // Honoring the schedule the user set always wins over saving gas.
-const MAX_WAIT_MS = 10 * 60 * 1000;
+// Kept below the scheduled job's runtime, because the wait clock restarts with every run.
+const MAX_WAIT_MS = 4 * 60 * 1000;
 
 interface ChainState {
   name: string;

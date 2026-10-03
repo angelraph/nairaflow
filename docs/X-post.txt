@@ -1,35 +1,37 @@
 === MAIN POST (X Premium, attach the video) ===
 
-In Nigeria, millions of people save through Ajo (Esusu). A group pays in every round, one person takes the whole pot, until everyone has had a turn.
+Submitted to the @arbitrum Open House Singapore buildathon: NairaFlow.
 
-It runs on trust. And it breaks the day someone stops paying, or the person holding the money disappears.
+In Nigeria, millions of people save through Ajo (Esusu). A group pays in every round, one person takes the whole pot, until everyone has had a turn. It runs on trust, and it breaks the day someone stops paying or the person holding the money disappears.
 
-So I built NairaFlow for the @arbitrum Open House Singapore buildathon: Ajo on-chain, in stablecoins, where nobody holds the money.
+So I put Ajo on-chain, in stablecoins, where nobody holds the money.
 
-What it does:
+What is in it:
 
-> Savings circles. Every circle is its own contract. Miss a round and your deposit covers the pot, so the circle carries on.
+> Savings circles. Every circle is its own contract. Members post a deposit when they join. Miss a round and your deposit covers the pot, so the circle carries on for everyone else. Payouts are pull based, so one bad wallet can never block a round.
 
-> Goal vaults. Lock money until a date you pick, with an optional daily allowance. Family can top it up.
+> Goal vaults. Lock money until a date you pick, with an optional daily allowance. Family abroad can top it up.
 
-> An agent that can't run off with your money. It closes rounds and releases allowances inside limits you set. Revoke it in one click and its next attempt fails on chain with "policy inactive".
+> An agent that cannot run off with your money. It closes due rounds and releases allowances inside limits you set: destination, per transaction, per period, expiry. Revoke it in one click and its next attempt fails on chain with "policy inactive". Every action logs the gas price it acted at, so you can check the timing claim on the explorer.
 
 > A savings score read straight from public events. The start of a credit record for people with no bank history.
 
-This is not a mockup. Every transaction in the demo is real, on Arbitrum Sepolia and Robinhood Chain testnet.
+It is live on Robinhood Chain MAINNET with Paxos' real USDG as the only token. No mock tokens. All 7 contracts are exact matches on Sourcify. It is unaudited, so please start small.
 
-And it is deployed on Robinhood Chain mainnet with Paxos' real USDG as the only token. No mock tokens. All 7 contracts verified.
+It also runs on Arbitrum Sepolia and Robinhood testnet, where I ran the whole thing with real transactions: circles that ran to the end with the agent closing every round, vault releases by the agent on its own, and a live revoke that made the agent's next call revert. The demo video is a recording of the live app doing exactly that.
 
-23 tests. A 128,000 call funds invariant. 0 high or medium Slither findings. Every contract verified.
+Built to be checked:
+23 tests, including a 128,000 call funds invariant
+0 high or medium Slither findings
+3 real bugs found by running it and reviewing it. One let anyone set an agent policy on someone else's vault. I fixed it, wrote tests that fail without the fix, redeployed, and left the evidence public.
 
-I also found 3 real bugs by running it and reviewing it. One let anyone set an agent policy on someone else's vault. I fixed it, wrote tests that fail without the fix, redeployed, and left the evidence public.
-
-Try it: https://nairaflow-angelraphs-projects.vercel.app
+App: https://nairaflow-angelraphs-projects.vercel.app
 Code: https://github.com/angelraph/nairaflow
+Mainnet addresses: https://github.com/angelraph/nairaflow/blob/main/docs/DEPLOYMENTS.md
 
 Save. Rotate. Grow.
 
-#Arbitrum #ArbitrumOpenHouse #Stablecoins #Web3 #Ajo
+#Arbitrum #ArbitrumOpenHouse #RobinhoodChain #USDG #Stablecoins #Ajo
 
 
 === SHORT VERSION (under 280 characters) ===

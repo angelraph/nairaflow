@@ -78,7 +78,7 @@ const groups: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
       },
       {
         q: "What does gas-aware mean?",
-        a: "For vault releases the agent may wait, up to ten minutes, for a lower gas price before it acts. Each action is logged on chain with the gas price at that moment, so you can check it on the Activity page instead of taking our word.",
+        a: "For vault releases the agent may wait, up to four minutes, for a lower gas price before it acts. Each action is logged on chain with the gas price at that moment, so you can check it on the Activity page instead of taking our word.",
       },
       {
         q: "Is the agent always running?",
