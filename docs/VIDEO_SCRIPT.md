@@ -58,7 +58,7 @@ Format: **Click** is what your mouse does. **Say** is what you read out loud. Sp
 
 | | |
 |---|---|
-| **Click** | Nav **Circles**, open the prepared circle `0xcc8A…0C1b` on Arbitrum Sepolia (switch network if needed). |
+| **Click** | Nav **Circles**, open the prepared circle `0xcc8A…DC1b` on Arbitrum Sepolia (switch network if needed). |
 | **Say** | "Here is a circle that already ran all the way through, on real transactions." |
 | **Point at** | Status **Finished**, **Rounds completed 2 of 2**, both members marked **paid**. |
 | **Say** | "Two members, two rounds, everyone paid. Round one paid the first member. Round two paid the second." |
