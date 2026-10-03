@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useAccount, useConfig, usePublicClient, useReadContract, useReadContracts, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "wagmi/actions";
-import type { Address } from "viem";
+import { isAddress, type Address } from "viem";
+import { NotFoundNote } from "@/components/NotFoundNote";
 import { savingsCircleAbi, erc20Abi, CircleStatus } from "@/lib/abi";
 import { formatToken, formatAddress, formatCountdown } from "@/lib/format";
 import { circleStatusLabels, circleStatusStyles } from "@/lib/circleStatus";
@@ -118,8 +119,23 @@ export default function CircleDetailPage() {
     await run("contribute", () => writeContractAsync({ address, abi: savingsCircleAbi, functionName: "contribute" }));
   }
 
+  if (!isAddress(address ?? "")) {
+    return <NotFoundNote what="circle" reason="That is not a valid contract address." backHref="/circles" backLabel="Browse circles" />;
+  }
+
   if (!data) {
     return <p className="text-sm text-slate">Loading circle...</p>;
+  }
+
+  if (status?.error) {
+    return (
+      <NotFoundNote
+        what="circle"
+        reason="We could not read a NairaFlow circle at this address on the network your wallet is using. It may be on the other network, so try switching from the wallet button in the top bar."
+        backHref="/circles"
+        backLabel="Browse circles"
+      />
+    );
   }
 
   const roundProgress = maxMembersValue > 0 && statusValue === CircleStatus.Active ? Math.round((currentRoundValue / maxMembersValue) * 100) : statusValue === CircleStatus.Finished ? 100 : 0;

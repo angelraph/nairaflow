@@ -81,6 +81,10 @@ const groups: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
         a: "For vault releases the agent may wait, up to ten minutes, for a lower gas price before it acts. Each action is logged on chain with the gas price at that moment, so you can check it on the Activity page instead of taking our word.",
       },
       {
+        q: "Is the agent always running?",
+        a: "Not guaranteed. In this demo it is run by the maintainers and also has a scheduled cloud job, but GitHub treats schedules as best effort and can delay or skip runs, so a due round may wait. It is a convenience and nothing depends on it. If it is ever late, you can close the round yourself.",
+      },
+      {
         q: "Can I close a round myself?",
         a: "Yes. Closing a due round is open to anyone, not just the agent. The agent is a convenience, so a round never sits waiting.",
       },

@@ -5,7 +5,8 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useAccount, useConfig, usePublicClient, useReadContract, useReadContracts, useWriteContract } from "wagmi";
 import { waitForTransactionReceipt } from "wagmi/actions";
-import type { Address } from "viem";
+import { isAddress, type Address } from "viem";
+import { NotFoundNote } from "@/components/NotFoundNote";
 import { goalVaultAbi, erc20Abi } from "@/lib/abi";
 import { formatToken, formatAddress, formatDate, parseToken } from "@/lib/format";
 import { PolicyPanel } from "@/components/PolicyPanel";
@@ -103,8 +104,23 @@ export default function VaultDetailPage() {
     setWithdrawAmount("");
   }
 
+  if (!isAddress(address ?? "")) {
+    return <NotFoundNote what="vault" reason="That is not a valid contract address." backHref="/vaults" backLabel="Browse vaults" />;
+  }
+
   if (!data) {
     return <p className="text-sm text-slate">Loading vault...</p>;
+  }
+
+  if (token?.error) {
+    return (
+      <NotFoundNote
+        what="vault"
+        reason="We could not read a NairaFlow vault at this address on the network your wallet is using. It may be on the other network, so try switching from the wallet button in the top bar."
+        backHref="/vaults"
+        backLabel="Browse vaults"
+      />
+    );
   }
 
   const unlocked = unlockDate?.result ? Number(unlockDate.result) * 1000 <= Date.now() : false;

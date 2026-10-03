@@ -1,8 +1,9 @@
 name: Agent
 
 # Runs the NairaFlow agent on GitHub's servers so circle rounds and vault releases do not depend on anyone's
-# laptop. Each run polls both testnets for about nine minutes, then exits. GitHub schedules can start several
-# minutes late, so this is best effort. Anyone can still close a due round by hand from the app.
+# laptop. Each run polls both testnets for about nine minutes, then exits. GitHub treats schedules as best
+# effort and has been observed to skip or delay runs for hours, so this is a backstop and not a guarantee.
+# Anyone can still close a due round by hand from the app, and the workflow can be started manually.
 on:
   schedule:
     - cron: "*/10 * * * *"

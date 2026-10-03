@@ -152,9 +152,11 @@ export default function DocsPage() {
             </p>
             <H3>Who runs it</H3>
             <p>
-              The agent is not a hosted service in this demo. It is a program from the repository, run by the project
-              maintainers, so it can be offline. Nothing depends on it: any member can close a due round by hand, and a
-              vault owner can always withdraw within the vault&apos;s own rules.
+              The agent is a program in the repository. It is set up to run on GitHub&apos;s servers on a schedule, with
+              its own key that holds only testnet gas and the agent role, and it is also run directly by the project
+              maintainers. GitHub treats schedules as best effort and can delay or skip runs, so a due round may wait,
+              sometimes for hours. Nothing depends on it: any member can close a due round by hand, and a vault owner can
+              always withdraw within the vault&apos;s own rules.
             </p>
           </Section>
 
