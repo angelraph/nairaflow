@@ -25,6 +25,7 @@ const sections = [
 const networks = [
   { chainId: 421614, name: "Arbitrum Sepolia", explorer: "https://sepolia.arbiscan.io" },
   { chainId: 46630, name: "Robinhood Chain Testnet", explorer: "https://explorer.testnet.chain.robinhood.com" },
+  { chainId: 4663, name: "Robinhood Chain (mainnet)", explorer: "https://robinhoodchain.blockscout.com" },
 ];
 
 export default function DocsPage() {
@@ -177,7 +178,7 @@ export default function DocsPage() {
               rows={[
                 ["Arbitrum Sepolia", "Chain id 421614. Circle's official test USDC plus a mock mUSDG."],
                 ["Robinhood Chain Testnet", "Chain id 46630. Mock mUSDC and mUSDG, because no official ones exist on this testnet."],
-                ["Robinhood Chain mainnet", "Chain id 4663. Real USDG lives here at 0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168. NairaFlow is not deployed to mainnet yet."],
+                ["Robinhood Chain mainnet", "Chain id 4663. NairaFlow is deployed here with the real USDG (0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168) as the only token. No mocks."],
               ]}
             />
             <p>
@@ -228,7 +229,7 @@ export default function DocsPage() {
               <li>Slither static analysis: no High or Medium findings. The 16 Low results are triaged in the security notes.</li>
               <li>Payouts are pull based, and state-changing functions are guarded against reentrancy.</li>
               <li>A platform admin can pause a circle or vault. It cannot move funds.</li>
-              <li>Not audited by a professional firm. Testnet software.</li>
+              <li>Not audited by a professional firm. The mainnet deployment holds real USDG, so use small amounts.</li>
             </ul>
             <p>
               Three real bugs were found by operating and reviewing the deployed system and are written up in the{" "}

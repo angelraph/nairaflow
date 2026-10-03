@@ -16,6 +16,19 @@ export const robinhoodTestnet = defineChain({
   testnet: true,
 });
 
+// Robinhood Chain mainnet (docs.robinhood.com/chain/connecting).
+export const robinhoodMainnet = defineChain({
+  id: 4663,
+  name: "Robinhood Chain",
+  nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+  rpcUrls: {
+    default: { http: [process.env.ROBINHOOD_MAINNET_RPC_URL ?? "https://rpc.mainnet.chain.robinhood.com"] },
+  },
+  blockExplorers: {
+    default: { name: "Blockscout", url: "https://robinhoodchain.blockscout.com" },
+  },
+});
+
 export { arbitrumSepolia };
 
-export const supportedChains = [arbitrumSepolia, robinhoodTestnet] as const;
+export const supportedChains = [arbitrumSepolia, robinhoodTestnet, robinhoodMainnet] as const;

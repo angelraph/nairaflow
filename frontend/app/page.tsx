@@ -42,7 +42,7 @@ export default function HomePage() {
             style={{ animationDelay: "0ms" }}
           >
             <span className="live-dot h-1.5 w-1.5 rounded-full bg-positive" />
-            Live on Arbitrum Sepolia and Robinhood Chain testnet
+            Live on Robinhood Chain mainnet and two testnets
           </p>
           <h1
             className="hero-in text-[2.6rem] font-medium leading-[1.06] tracking-tight text-ink sm:text-6xl lg:text-[4.4rem]"
@@ -200,7 +200,7 @@ export default function HomePage() {
               Start with people you trust.
             </h2>
             <p className="leading-relaxed text-slate">
-              It takes a wallet and a few minutes. This is testnet software, so you can try everything with play money.
+              It takes a wallet and a few minutes. Try everything with play money on a testnet first, then use real USDG on Robinhood Chain.
             </p>
             <div className="flex flex-wrap justify-center gap-3">
               <Link href="/circles/new" className="btn-primary">

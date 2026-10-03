@@ -24,7 +24,7 @@ const groups: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
       },
       {
         q: "Is this real money?",
-        a: "No. NairaFlow runs on testnets, so everything is play money. Please do not send real funds to these contracts.",
+        a: "On the two testnets, no: everything is play money. On Robinhood Chain mainnet it is real USDG. The contracts have tests and static analysis but no professional audit, so only use an amount you can afford to lose.",
       },
     ],
   },
@@ -91,27 +91,27 @@ const groups: { title: string; items: { q: string; a: React.ReactNode }[] }[] = 
     ],
   },
   {
-    title: "Testnet and tokens",
+    title: "Networks and tokens",
     items: [
       {
         q: "Which networks are supported?",
-        a: "Arbitrum Sepolia and Robinhood Chain testnet. Switch between them from the wallet button in the top bar.",
+        a: "Robinhood Chain mainnet (real USDG), plus Arbitrum Sepolia and Robinhood Chain testnet for practice. Switch between them from the wallet button in the top bar.",
       },
       {
         q: "Which tokens can I use?",
-        a: "On Arbitrum Sepolia, Circle's official test USDC plus a mock mUSDG. On Robinhood Chain testnet, mock mUSDC and mUSDG, because no official ones exist there. The m is part of each mock token's own symbol, so they can never be mistaken for the real ones.",
+        a: "On Robinhood Chain mainnet, Paxos' real USDG. On Arbitrum Sepolia, Circle's official test USDC plus a mock mUSDG. On Robinhood Chain testnet, mock mUSDC and mUSDG, because no official ones exist there. The m is part of each mock token's own symbol, so they can never be mistaken for the real ones.",
       },
       {
-        q: "Why is USDG a mock?",
-        a: "Real USDG exists only on Robinhood Chain mainnet. The testnets have none, so we use a clearly labelled mock there. The contracts accept any token on the allowed list, so using the real USDG is a configuration change.",
+        q: "Is USDG real or a mock?",
+        a: "Both. On Robinhood Chain mainnet NairaFlow is deployed with the real USDG and no mock token at all. The testnets have no USDG, so there it is a clearly labelled mock (mUSDG) that anyone can mint.",
       },
       {
         q: "How do I get test tokens?",
-        a: "Connect your wallet and open Start a circle or Open a goal vault. A Need test tokens card lets you mint mock tokens in one click, with links to the gas and USDC faucets.",
+        a: "On a testnet, connect your wallet and open Start a circle or Open a goal vault. A Need test tokens card lets you mint mock tokens in one click, with links to the gas and USDC faucets. On mainnet you use real USDG from your own wallet.",
       },
       {
         q: "What does it cost to use?",
-        a: "Only network gas, paid in testnet ETH. There is no platform fee.",
+        a: "Only network gas, paid in ETH (testnet ETH on the testnets). There is no platform fee.",
       },
     ],
   },

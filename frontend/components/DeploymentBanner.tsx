@@ -18,7 +18,7 @@ export function DeploymentBanner() {
   if (!deployment) {
     return (
       <div className="card mb-6 border-negative/30 bg-negative/5 text-sm text-negative">
-        This network isn't one NairaFlow supports. Switch to Arbitrum Sepolia or Robinhood Chain Testnet.
+        This network isn't one NairaFlow supports. Switch to Robinhood Chain, Arbitrum Sepolia or Robinhood Chain Testnet.
       </div>
     );
   }

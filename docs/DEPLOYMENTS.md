@@ -2,7 +2,7 @@
 
 Every address below comes from an actual `forge script` broadcast (see `contracts/broadcast/`). None are hand-typed.
 
-These are the third deployment of the same code base. The first was replaced after a fund-recovery bug turned up on the live Sepolia circle, and the second after a review found that anyone could set an agent policy on someone else's vault. Both are written up in [Bugs found and fixed](#bugs-found-and-fixed-via-live-testnet-operation) below. The addresses in the tables are the current, fixed deployment. Every contract on both chains is source-verified on its explorer.
+The same code base runs on Robinhood Chain mainnet (real USDG) and on two testnets. The testnet deployments below are the third generation. The first was replaced after a fund-recovery bug turned up on the live Sepolia circle, and the second after a review found that anyone could set an agent policy on someone else's vault. Both are written up in [Bugs found and fixed](#bugs-found-and-fixed-via-live-testnet-operation) below. The addresses in the tables are the current, fixed deployment. Every contract on the testnets is source-verified on its explorer, and every mainnet contract is an exact match on Sourcify.
 
 ## Arbitrum Sepolia (chain id 421614)
 
@@ -36,13 +36,31 @@ Explorer: https://sepolia.arbiscan.io
 
 Explorer: https://explorer.testnet.chain.robinhood.com
 
+## Robinhood Chain mainnet (chain id 4663)
+
+Deployed on 3 October 2026 from `contracts/script/Deploy.s.sol` with `REAL_USDG_ADDRESS` set and both mock flags off, so Paxos' real USDG is the only token the registry accepts and no mock token exists on this chain. The agent role on the executor belongs to the dedicated agent address `0xa8D457Fe25146831de9b52F2041E5839A1EBe817`.
+
+| Contract | Address |
+|---|---|
+| StablecoinRegistry | `0xAbEA0b38214B1A5FDAc725E63eb1c7EC6b381637` |
+| PolicyManager | `0x52A0D9b9d96A03F318c8D07aC8068Aed5f2016c1` |
+| AgentExecutor | `0x42ABF69d81425CAbd853a55170B2bAd86b8290Ca` |
+| SavingsCircleFactory | `0xb29501e7D28a3dDB5c2c84D10916a628A5dD3514` |
+| SavingsCircle (implementation) | `0xCBE1A63057f9E1a399CEc8cAfdcBb9DE3382aec8` |
+| GoalVaultFactory | `0x0Dfe72134CCa08Bf346820F16e3467eaB03aa6C0` |
+| GoalVault (implementation) | `0x8b0BD84cF5E2D482488b7c3850Be9bF588a55A1a` |
+| USDG (Paxos, real) | `0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168` |
+
+Explorer: https://robinhoodchain.blockscout.com
+
+Verification: all seven contracts are exact matches (creation and runtime) on Sourcify, for example `https://sourcify.dev/server/v2/contract/4663/0x0Dfe72134CCa08Bf346820F16e3467eaB03aa6C0`. The Blockscout API sits behind a bot challenge that blocks `forge verify-contract`, so Sourcify was used instead. The deployment is unaudited and holds real USDG, so use small amounts.
 ## Superseded deployments
 
 Earlier deployments stay on chain but are no longer used by the app. Their addresses are in the git history of this file. The second Sepolia generation, for reference: factories `0xa806b5984FF3C55E5B4960c4f275f7B277a63AcC` (circles) and `0x719124726A1A481d3beDFEE96144D4b97F5B0b67` (vaults).
 
 ## Real USDG
 
-Robinhood's own token page lists the canonical USDG at `0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168`, and reading that address on chain returns symbol `USDG` with 6 decimals on Robinhood Chain mainnet (chain id 4663) and no code at all on the testnet. The deploy script registers it directly when `REAL_USDG_ADDRESS` is set, and `DEPLOY_MOCK_USDC=false` keeps every mock off a mainnet deployment. NairaFlow is not deployed to mainnet yet.
+Robinhood's own token page lists the canonical USDG at `0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168`, and reading that address on chain returns symbol `USDG` with 6 decimals on Robinhood Chain mainnet (chain id 4663) and no code at all on the testnet. The deploy script registers it directly when `REAL_USDG_ADDRESS` is set, and `DEPLOY_MOCK_USDC=false` keeps every mock off a mainnet deployment. That is how the mainnet deployment above was made.
 
 ## Why some stablecoins here are mocks
 

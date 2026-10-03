@@ -1,6 +1,7 @@
 import type { Address } from "viem";
 import deployment421614 from "@/deployments/421614.json";
 import deployment46630 from "@/deployments/46630.json";
+import deployment4663 from "@/deployments/4663.json";
 import deployment31337 from "@/deployments/31337.json";
 
 export interface Deployment {
@@ -20,6 +21,7 @@ export interface Deployment {
 const deployments: Record<number, Deployment> = {
   421614: deployment421614 as Deployment,
   46630: deployment46630 as Deployment,
+  4663: deployment4663 as Deployment,
   31337: deployment31337 as Deployment,
 };
 

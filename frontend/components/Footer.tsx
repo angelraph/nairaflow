@@ -41,8 +41,8 @@ export function Footer() {
             Save <span className="text-positive">&bull;</span> Rotate <span className="text-positive">&bull;</span> Grow
           </p>
           <p className="max-w-xs text-sm leading-relaxed text-slate">
-            Non-custodial savings circles and goal vaults in stablecoins. Live on Arbitrum Sepolia and Robinhood Chain
-            testnet. Testnet software: do not deposit real funds.
+            Non-custodial savings circles and goal vaults in stablecoins. Live on Robinhood Chain with real USDG, and on
+            Arbitrum Sepolia and Robinhood testnet with play money. Not audited: only use what you can afford to lose.
           </p>
           <p className="text-xs uppercase tracking-[0.2em] text-positive/80">African roots &bull; Global access</p>
         </div>

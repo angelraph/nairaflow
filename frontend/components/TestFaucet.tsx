@@ -10,6 +10,7 @@ import { formatToken } from "@/lib/format";
 
 const gasFaucets: Record<number, { label: string; href: string }> = {
   421614: { label: "Get testnet ETH for gas", href: "https://arbitrum.faucet.dev/" },
+  4663: { label: "Get ETH for gas", href: "https://docs.robinhood.com/chain/connecting" },
   46630: { label: "Get testnet ETH for gas", href: "https://faucet.testnet.chain.robinhood.com" },
 };
 
@@ -30,6 +31,19 @@ export function TestFaucet() {
   });
 
   if (!isConnected || !ready || !deployment || tokens.length === 0) return null;
+
+  if (chainId === 4663) {
+    return (
+      <div className="card flex flex-col gap-3 border-warn/30">
+        <p className="tag text-warn">Real money</p>
+        <p className="text-sm leading-relaxed text-slate">
+          You are on Robinhood Chain mainnet. The only token here is the real USDG, and it comes from your own wallet. There is
+          no faucet. The contracts are not professionally audited, so start with a small amount. To practise with play money,
+          switch to a testnet from the wallet menu.
+        </p>
+      </div>
+    );
+  }
 
   const mocks = tokens.filter((t) => t.symbol.startsWith("m"));
   const hasRealUsdc = tokens.some((t) => t.symbol === "USDC");

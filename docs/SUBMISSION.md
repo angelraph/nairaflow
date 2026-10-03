@@ -60,4 +60,4 @@ ArbSepolia USDC (Circle) 0x75faf114eafb1BDbe2F0316DF893fd58CE46AA4d, mUSDG (test
 **Code produced during the buildathon (180 characters):**
 All of it. Contracts, tests, the off-chain agent, the frontend and the docs were written during the buildathon. Third-party code is limited to OpenZeppelin contracts and forge-std.
 
-**Sponsor technologies used:** Robinhood Chain, OpenZeppelin. Do not tick Paxos/USDG unless the mainnet USDG deployment is completed and demonstrated.
+**Sponsor technologies used:** Robinhood Chain, OpenZeppelin, Paxos/USDG. NairaFlow is deployed on Robinhood Chain mainnet with Paxos' real USDG (0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168) as the only registered token. Mainnet contracts: CircleFactory 0xb29501e7D28a3dDB5c2c84D10916a628A5dD3514, VaultFactory 0x0Dfe72134CCa08Bf346820F16e3467eaB03aa6C0, PolicyManager 0x52A0D9b9d96A03F318c8D07aC8068Aed5f2016c1, AgentExecutor 0x42ABF69d81425CAbd853a55170B2bAd86b8290Ca.

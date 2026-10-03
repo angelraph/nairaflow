@@ -16,6 +16,19 @@ export const robinhoodTestnet = defineChain({
   testnet: true,
 });
 
+// Robinhood Chain mainnet. Chain id, RPC and explorer from docs.robinhood.com/chain/connecting.
+export const robinhoodMainnet = defineChain({
+  id: 4663,
+  name: "Robinhood Chain",
+  nativeCurrency: { name: "Ether", symbol: "ETH", decimals: 18 },
+  rpcUrls: {
+    default: { http: [process.env.NEXT_PUBLIC_ROBINHOOD_MAINNET_RPC_URL ?? "https://rpc.mainnet.chain.robinhood.com"] },
+  },
+  blockExplorers: {
+    default: { name: "Blockscout", url: "https://robinhoodchain.blockscout.com" },
+  },
+});
+
 // Local Anvil node, used only during development to prove the full stack works against a
 // real, freshly-deployed EVM before ever touching a public testnet. Never enabled in a
 // production build.
@@ -34,5 +47,5 @@ export { arbitrumSepolia };
 const enableLocalChain = process.env.NEXT_PUBLIC_ENABLE_LOCAL_CHAIN === "true";
 
 export const supportedChains = enableLocalChain
-  ? ([localAnvil, arbitrumSepolia, robinhoodTestnet] as const) // local first only for dev testing
-  : ([arbitrumSepolia, robinhoodTestnet] as const);
+  ? ([localAnvil, arbitrumSepolia, robinhoodTestnet, robinhoodMainnet] as const) // local first only for dev testing
+  : ([arbitrumSepolia, robinhoodTestnet, robinhoodMainnet] as const);

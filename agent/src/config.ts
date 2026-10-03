@@ -3,7 +3,7 @@ import { fileURLToPath } from "node:url";
 import { dirname, join } from "node:path";
 import "dotenv/config";
 import type { Address } from "viem";
-import { arbitrumSepolia, robinhoodTestnet } from "./chains.js";
+import { arbitrumSepolia, robinhoodMainnet, robinhoodTestnet } from "./chains.js";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -59,4 +59,5 @@ export const GAS_PRICE_TARGET_RATIO = Number(process.env.GAS_PRICE_TARGET_RATIO 
 export const targets = [
   { chain: arbitrumSepolia, deployment: () => loadDeployment(arbitrumSepolia.id) },
   { chain: robinhoodTestnet, deployment: () => loadDeployment(robinhoodTestnet.id) },
+  { chain: robinhoodMainnet, deployment: () => loadDeployment(robinhoodMainnet.id) },
 ];

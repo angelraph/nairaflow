@@ -20,7 +20,7 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design, the verifi
 
 ## Status
 
-Live on Arbitrum Sepolia and Robinhood Chain testnet. Addresses are in [docs/DEPLOYMENTS.md](docs/DEPLOYMENTS.md). Contracts have 22 unit tests and a 128,000-call funds-conservation invariant test (Foundry), plus a Slither run with no High or Medium results. CI runs the tests, Slither and both TypeScript builds on every push. See [SECURITY.md](SECURITY.md) for what is tested, what Slither found, and the trust assumptions. The off-chain agent and frontend are both built and have been run against real transactions on both testnets, not just against local tests.
+Live on Robinhood Chain mainnet with the real USDG, and on Arbitrum Sepolia and Robinhood Chain testnet for practice. The mainnet deployment is unaudited, so use small amounts. Addresses are in [docs/DEPLOYMENTS.md](docs/DEPLOYMENTS.md). Contracts have 22 unit tests and a 128,000-call funds-conservation invariant test (Foundry), plus a Slither run with no High or Medium results. CI runs the tests, Slither and both TypeScript builds on every push. See [SECURITY.md](SECURITY.md) for what is tested, what Slither found, and the trust assumptions. The off-chain agent and frontend are both built and have been run against real transactions on both testnets, not just against local tests.
 
 ## Repository layout
 

@@ -1,0 +1,13 @@
+{
+  "chainId": 4663,
+  "name": "Robinhood Chain",
+  "note": "Mainnet deployment from contracts/script/Deploy.s.sol. The only stablecoin registered is Paxos' real USDG (0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168). No mock tokens exist on this chain. Unaudited: use amounts you can afford to lose.",
+  "stablecoinRegistry": "0xAbEA0b38214B1A5FDAc725E63eb1c7EC6b381637",
+  "policyManager": "0x52A0D9b9d96A03F318c8D07aC8068Aed5f2016c1",
+  "agentExecutor": "0x42ABF69d81425CAbd853a55170B2bAd86b8290Ca",
+  "savingsCircleFactory": "0xb29501e7D28a3dDB5c2c84D10916a628A5dD3514",
+  "goalVaultFactory": "0x0Dfe72134CCa08Bf346820F16e3467eaB03aa6C0",
+  "usdc": "",
+  "usdg": "0x5fc5360D0400a0Fd4f2af552ADD042D716F1d168",
+  "deploymentBlock": 78935693
+}
