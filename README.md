@@ -24,7 +24,7 @@ Both are backed by the same guarantee: funds sit in a contract the user (or the 
 | Arbitrum Sepolia | 421614 | Circle's test USDC, mock mUSDG | Full walkthrough with real testnet transactions |
 | Robinhood Chain Testnet | 46630 | Mock mUSDC and mUSDG | Full walkthrough with real testnet transactions |
 
-Mainnet contracts (all exact matches on Sourcify): CircleFactory `0xb29501e7D28a3dDB5c2c84D10916a628A5dD3514`, VaultFactory `0x0Dfe72134CCa08Bf346820F16e3467eaB03aa6C0`, PolicyManager `0x52A0D9b9d96A03F318c8D07aC8068Aed5f2016c1`, AgentExecutor `0x42ABF69d81425CAbd853a55170B2bAd86b8290Ca`, StablecoinRegistry `0xAbEA0b38214B1A5FDAc725E63eb1c7EC6b381637`. Explorer: https://robinhoodchain.blockscout.com
+Mainnet contracts (all exact matches on Sourcify): CircleFactory `0xb29501e7D28a3dDB5c2c84D10916a628A5dD3514`, VaultFactory `0x0Dfe72134CCa08Bf346820F16e3467eaB03aa6C0`, PolicyManager `0x52A0D9b9d96A03F318c8D07aC8068Aed5f2016c1`, AgentExecutor `0x42ABF69d81425CAbd853a55170B2bAd86b8290Ca`, StablecoinRegistry `0xAbEA0b38214B1A5FDAc725E63eb1c7EC6b381637`. Explorer: https://robinhoodchain.blockscout.com. A vault and a circle have run on mainnet with real USDG, with the agent releasing from the vault and closing the circle's rounds. The transactions are in [docs/DEPLOYMENTS.md](docs/DEPLOYMENTS.md#robinhood-chain-mainnet-chain-id-4663).
 
 See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for the full design, the verified chain configuration for Arbitrum Sepolia and Robinhood Chain testnet, and the reasoning behind each security choice, including how this differs from the other group-savings and agent-policy projects submitted to the same event.
 
